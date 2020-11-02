@@ -1,0 +1,10 @@
+name: moba
+main: me.yoast.moba.Main
+description: First Minecraft Spigot Plugin!
+version: 1.0
+author: Yoast
+
+
+commands:
+  classes:
+  spawnmobs:

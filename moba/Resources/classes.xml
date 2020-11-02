@@ -1,0 +1,52 @@
+<?xml version="1.0"?>  
+<classes>  
+    <class>  
+        <name>Tank</name>
+        <icon>DIAMOND_CHESTPLATE</icon>  
+        <items>
+        	<item>STONE_SWORD</item>  
+	        <item>DIAMOND_BOOTS</item> 
+	        <item>DIAMOND_LEGGINGS</item>  
+	        <item>DIAMOND_CHESTPLATE</item>  
+	        <item>DIAMOND_HELMET</item> 
+        </items>              
+    </class>  
+      
+    <class>  
+        <name>Bandit</name>
+        <icon>BOW</icon>  
+        <items>
+        	<item>IRON_AXE</item>  
+	        <item>BOW</item> 
+	        <item>IRON_BOOTS</item>  
+	        <item>IRON_LEGGINGS</item>  
+	        <item>IRON_CHESTPLATE</item> 
+	        <item>ARROW</item> 
+        </items>               
+    </class> 
+  
+    <class>  
+        <name>Miner</name>
+        <icon>GOLD_PICKAXE</icon>  
+        <items>
+        	<item>STONE_SWORD</item>  
+	        <item>DIAMOND_HELMET</item> 
+	        <item>DIAMOND_CHESTPLATE</item>  
+	        <item>DIAMOND_LEGGINGS</item>  
+	        <item>DIAMOND_BOOTS</item> 
+        </items>               
+    </class>  
+  
+    <class>  
+        <name>Healer</name>
+        <icon>GOLDEN_APPLE</icon>  
+        <items>
+        	<item>STONE_SWORD</item>  
+	        <item>DIAMOND_HELMET</item> 
+	        <item>DIAMOND_CHESTPLATE</item>  
+	        <item>DIAMOND_LEGGINGS</item>  
+	        <item>DIAMOND_BOOTS</item> 
+        </items>                
+    </class>
+  
+</classes>  
