@@ -31,9 +31,10 @@ public class SpawnMobsCommand implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		CraftWorld world = (CraftWorld) Bukkit.getWorld("world_1602090282");
-		Tower tower = new Tower(Tower.Team.BLUE, world);
-		EntityTypes.spawnEntity(tower, new Location(world, -59, 4, -420));
-		EntityTypes.spawnEntity(tower, new Location(world, -59, 4, -420));
+		Tower towerBlue = new Tower(Tower.Team.BLUE, world);
+		EntityTypes.spawnEntity(towerBlue, new Location(world, -59, 4, -420));
+		Tower towerRed = new Tower(Tower.Team.RED, world);
+		EntityTypes.spawnEntity(towerRed, new Location(world, -60, 4, -420));
 		new WaveSeperator(this.plugin, 2).runTaskTimer(this.plugin, 0, 1200);
 		return false;
 	}

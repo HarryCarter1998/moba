@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftSkeleton;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftZombie;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -19,6 +20,7 @@ import org.bukkit.util.Vector;
 import me.yoast.moba.Main;
 import me.yoast.moba.mobs.Creep;
 import me.yoast.moba.mobs.Creep.Team;
+import me.yoast.moba.mobs.Tower;
 import me.yoast.moba.ui.InventoryUI;
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_8_R3.EntityZombie;
@@ -50,6 +52,15 @@ public class CreepDamageListener implements Listener{
 						e.getEntity().setVelocity(new Vector(0,0,0));
 						Creep damagedCreep = (Creep) ((CraftZombie)e.getEntity()).getHandle();
 						if (damagedCreep.getTeam().equals(Team.RED)) {
+							e.getEntity().setCustomName(ChatColor.RED + health);
+						} else {
+							e.getEntity().setCustomName(ChatColor.BLUE + health);
+						}
+					}
+					if (e.getEntity() instanceof CraftSkeleton) {
+						//e.getEntity().setVelocity(new Vector(0,0,0));
+						Tower damagedTower = (Tower) ((CraftSkeleton)e.getEntity()).getHandle();
+						if (damagedTower.getTeam().toString().equals("RED")) {
 							e.getEntity().setCustomName(ChatColor.RED + health);
 						} else {
 							e.getEntity().setCustomName(ChatColor.BLUE + health);

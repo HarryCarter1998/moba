@@ -46,6 +46,7 @@ public class Creep extends EntityZombie {
 //		this.goalSelector.a(0, new PathfinderGoalFloat(this));
         this.targetSelector.a(1, new PathfinderPriorities(this)); // Move to closest enemy creep
         this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityZombie.class, 1.0D, true)); // Enable attacks against zombies
+        this.goalSelector.a(3, new PathfinderGoalMeleeAttack(this, EntitySkeleton.class, 1.0D, true)); // Enable attacks against zombies
         
 //        this.targetSelector.a(3, new PathfinderAttackEnemyTower(this)); // Move to closest enemy tower
 //        this.goalSelector.a(4, new PathfinderGoalMeleeAttack(this, EntitySkeleton.class, 1.0D, true)); // Enables attacks against skeletons
@@ -118,4 +119,9 @@ public class Creep extends EntityZombie {
 	public void setTeam(Team team) {
 		this.team = team;
 	}
+	
+	@Override
+	public void g(double d0, double d1, double d2) {
+        this.ai = true;
+    }
 }
