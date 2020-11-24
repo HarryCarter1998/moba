@@ -9,6 +9,7 @@ import me.yoast.moba.listeners.CreepDamageListener;
 import me.yoast.moba.listeners.CreepDropListener;
 import me.yoast.moba.listeners.DropItemListener;
 import me.yoast.moba.listeners.InventoryClickListener;
+import me.yoast.moba.listeners.SlimeSplitListener;
 import me.yoast.moba.ui.InventoryUI;
 
 public class Main extends JavaPlugin {
@@ -22,6 +23,7 @@ public class Main extends JavaPlugin {
 		new ClickItemListener(this);
 		new CreepDamageListener(this);
 		new DropItemListener(this);
+		new SlimeSplitListener(this);
 		InventoryUI.initialize();
 	}
 	

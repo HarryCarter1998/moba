@@ -3,7 +3,7 @@ package me.yoast.moba.pathfinders;
 import java.util.List;
 
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftGuardian;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftMagmaCube;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 
@@ -39,8 +39,8 @@ public class PathfinderAttackEnemyTower extends PathfinderGoal {
 		List<Entity> targets  = ((Entity) craftEntity).getNearbyEntities(200, 5, 200);
 		double minDistance = -1;
 		for(Entity nearbyEntity : targets) {
-			if(nearbyEntity instanceof CraftGuardian) {
-				Tower nmsTower = (Tower) ((CraftGuardian) nearbyEntity).getHandle();
+			if(nearbyEntity instanceof CraftMagmaCube) {
+				Tower nmsTower = (Tower) ((CraftMagmaCube) nearbyEntity).getHandle();
 				if (this.creep.getTeam().toString() != nmsTower.getTeam().toString()) {
 					if (minDistance == -1) {
 						minDistance = nearbyEntity.getLocation().distance(craftEntity.getLocation());

@@ -26,8 +26,8 @@ public class CreepSpawner extends BukkitRunnable {
 		this.world = (CraftWorld) Bukkit.getWorld("world_1602090282");
 //		blueSpawns.add(new Location(world, -82, 10, -337));
 //		redSpawns.add(new Location(world, 37, 10, -337));
-		blueSpawns.add(new Location(world, -78, 4, -420));
-		redSpawns.add(new Location(world, -60, 4, -419));
+		blueSpawns.add(new Location(world, -90, 4, -419.5));
+		redSpawns.add(new Location(world, -42, 4, -419.5));
 	}
 
 	@Override
@@ -35,10 +35,10 @@ public class CreepSpawner extends BukkitRunnable {
 		if (counter > 0) {
 			// Change to a BukkitRunnable that calls another BukkitRunnable
 				for(Location loc : redSpawns) {
-					EntityTypes.spawnEntity(new Creep(Creep.Team.RED, this.world), loc);
+					EntityTypes.spawnEntity(new Creep(Creep.Team.RED, this.world, this.plugin), loc);
 				}
 				for(Location loc : blueSpawns) {
-					EntityTypes.spawnEntity(new Creep(Creep.Team.BLUE, this.world), loc);
+					EntityTypes.spawnEntity(new Creep(Creep.Team.BLUE, this.world, this.plugin), loc);
 				}
 			counter--;
 		} else {

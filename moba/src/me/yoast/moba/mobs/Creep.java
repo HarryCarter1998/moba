@@ -8,11 +8,12 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import me.yoast.moba.pathfinders.PathfinderPriorities;
+import me.yoast.moba.utils.DamageNearbyTower;
 import me.yoast.moba.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
-import net.minecraft.server.v1_8_R3.EntityGuardian;
 import net.minecraft.server.v1_8_R3.EntityZombie;
 import net.minecraft.server.v1_8_R3.GenericAttributes;
 import net.minecraft.server.v1_8_R3.PathfinderGoalMeleeAttack;
@@ -26,22 +27,24 @@ public class Creep extends EntityZombie {
 	
 	private final float CREEPSPEED = 0.135f;
 	private Team team = null;
+	private JavaPlugin plugin;
 	
-	public Creep(Team team, CraftWorld world) {
+	public Creep(Team team, CraftWorld world, JavaPlugin plugin) {
 		
         super(((CraftWorld)world).getHandle());
         this.team = team;
+        this.plugin = plugin;
         List goalB = (List)Utils.getPrivateField("b", PathfinderGoalSelector.class, goalSelector); goalB.clear();
         List goalC = (List)Utils.getPrivateField("c", PathfinderGoalSelector.class, goalSelector); goalC.clear();
         List targetB = (List)Utils.getPrivateField("b", PathfinderGoalSelector.class, targetSelector); targetB.clear();
         List targetC = (List)Utils.getPrivateField("c", PathfinderGoalSelector.class, targetSelector); targetC.clear();
 
         setParams();
-		
+        new DamageNearbyTower(this).runTaskTimer(this.plugin, 0, 20);
 //		this.goalSelector.a(0, new PathfinderGoalFloat(this));
         this.targetSelector.a(1, new PathfinderPriorities(this)); // Move to closest enemy creep
         this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityZombie.class, 1.0D, true)); // Enable attacks against zombies
-        this.goalSelector.a(3, new PathfinderGoalMeleeAttack(this, EntityGuardian.class, 1.0D, true)); // Enable attacks against zombies
+        //this.goalSelector.a(3, new PathfinderGoalMeleeAttack(this, EntityGuardian.class, 1.0D, true)); // Enable attacks against zombies
         
 //        this.targetSelector.a(3, new PathfinderAttackEnemyTower(this)); // Move to closest enemy tower
 //        this.goalSelector.a(4, new PathfinderGoalMeleeAttack(this, EntitySkeleton.class, 1.0D, true)); // Enables attacks against skeletons
@@ -64,8 +67,9 @@ public class Creep extends EntityZombie {
 	private void setParams() {
 		DecimalFormat df = new DecimalFormat("#");
 		this.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(this.CREEPSPEED);
-		this.getAttributeInstance(GenericAttributes.maxHealth).setValue(5);
+		this.getAttributeInstance(GenericAttributes.maxHealth).setValue(50);
 		this.getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(200);
+		this.getAttributeInstance(GenericAttributes.c).setValue(Double.MAX_VALUE);
 		this.setHealth(50);
 		this.setCustomNameVisible(true);
 		setBaby(true);
@@ -115,8 +119,8 @@ public class Creep extends EntityZombie {
 		this.team = team;
 	}
 	
-	@Override
-	public void g(double d0, double d1, double d2) {
-        this.ai = true;
-    }
+//	@Override
+//	public void g(double d0, double d1, double d2) {
+//        this.ai = true;
+//    }
 }

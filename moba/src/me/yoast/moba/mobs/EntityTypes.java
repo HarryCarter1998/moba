@@ -13,7 +13,7 @@ import me.yoast.moba.utils.Utils;
 public enum EntityTypes
 {
     //NAME("Entity name", Entity ID, yourcustomclass.class);
-	CUSTOM_GUARDIAN("Tower", 68, Tower.class),
+	CUSTOM_MAGMACUBE("Tower", 62, Tower.class),
     CUSTOM_ZOMBIE("Creep", 54, Creep.class); //You can add as many as you want.
 	 
     private EntityTypes(String name, int id, Class<? extends Entity> custom)

@@ -3,8 +3,7 @@ package me.yoast.moba.listeners;
 import java.text.DecimalFormat;
 
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftGuardian;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftSkeleton;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftMagmaCube;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftZombie;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -42,7 +41,7 @@ public class CreepDamageListener implements Listener{
 					String health = currentString + "/" + maxHP;
 					// If it's a CraftZombie (aka a Creep) cast it to Creep
 					if (e.getEntity() instanceof CraftZombie) {
-						e.getEntity().setVelocity(new Vector(0,0,0));
+						//e.getEntity().setVelocity(new Vector(0,0,0));
 						Creep damagedCreep = (Creep) ((CraftZombie)e.getEntity()).getHandle();
 						if (damagedCreep.getTeam().equals(Team.RED)) {
 							e.getEntity().setCustomName(ChatColor.RED + health);
@@ -50,9 +49,9 @@ public class CreepDamageListener implements Listener{
 							e.getEntity().setCustomName(ChatColor.BLUE + health);
 						}
 					}
-					if (e.getEntity() instanceof CraftSkeleton) {
-						//e.getEntity().setVelocity(new Vector(0,0,0));
-						Tower damagedTower = (Tower) ((CraftGuardian)e.getEntity()).getHandle();
+					if (e.getEntity() instanceof CraftMagmaCube) {
+						e.getEntity().setVelocity(new Vector(0,0,0));
+						Tower damagedTower = (Tower) ((CraftMagmaCube)e.getEntity()).getHandle();
 						if (damagedTower.getTeam().toString().equals("RED")) {
 							e.getEntity().setCustomName(ChatColor.RED + health);
 						} else {
