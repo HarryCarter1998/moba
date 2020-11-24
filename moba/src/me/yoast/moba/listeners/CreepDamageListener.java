@@ -3,27 +3,20 @@ package me.yoast.moba.listeners;
 import java.text.DecimalFormat;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftGuardian;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftSkeleton;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftZombie;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import me.yoast.moba.Main;
 import me.yoast.moba.mobs.Creep;
 import me.yoast.moba.mobs.Creep.Team;
 import me.yoast.moba.mobs.Tower;
-import me.yoast.moba.ui.InventoryUI;
 import net.md_5.bungee.api.ChatColor;
-import net.minecraft.server.v1_8_R3.EntityZombie;
 
 public class CreepDamageListener implements Listener{
 	
@@ -59,7 +52,7 @@ public class CreepDamageListener implements Listener{
 					}
 					if (e.getEntity() instanceof CraftSkeleton) {
 						//e.getEntity().setVelocity(new Vector(0,0,0));
-						Tower damagedTower = (Tower) ((CraftSkeleton)e.getEntity()).getHandle();
+						Tower damagedTower = (Tower) ((CraftGuardian)e.getEntity()).getHandle();
 						if (damagedTower.getTeam().toString().equals("RED")) {
 							e.getEntity().setCustomName(ChatColor.RED + health);
 						} else {

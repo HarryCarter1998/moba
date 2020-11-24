@@ -9,18 +9,13 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import me.yoast.moba.pathfinders.PathfinderAttackEnemyCreep;
-import me.yoast.moba.pathfinders.PathfinderAttackEnemyTower;
 import me.yoast.moba.pathfinders.PathfinderPriorities;
 import me.yoast.moba.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
-import net.minecraft.server.v1_8_R3.EntityHuman;
-import net.minecraft.server.v1_8_R3.EntitySkeleton;
-import net.minecraft.server.v1_8_R3.EntitySpider;
+import net.minecraft.server.v1_8_R3.EntityGuardian;
 import net.minecraft.server.v1_8_R3.EntityZombie;
 import net.minecraft.server.v1_8_R3.GenericAttributes;
 import net.minecraft.server.v1_8_R3.PathfinderGoalMeleeAttack;
-import net.minecraft.server.v1_8_R3.PathfinderGoalNearestAttackableTarget;
 import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
 
 public class Creep extends EntityZombie {
@@ -46,7 +41,7 @@ public class Creep extends EntityZombie {
 //		this.goalSelector.a(0, new PathfinderGoalFloat(this));
         this.targetSelector.a(1, new PathfinderPriorities(this)); // Move to closest enemy creep
         this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityZombie.class, 1.0D, true)); // Enable attacks against zombies
-        this.goalSelector.a(3, new PathfinderGoalMeleeAttack(this, EntitySkeleton.class, 1.0D, true)); // Enable attacks against zombies
+        this.goalSelector.a(3, new PathfinderGoalMeleeAttack(this, EntityGuardian.class, 1.0D, true)); // Enable attacks against zombies
         
 //        this.targetSelector.a(3, new PathfinderAttackEnemyTower(this)); // Move to closest enemy tower
 //        this.goalSelector.a(4, new PathfinderGoalMeleeAttack(this, EntitySkeleton.class, 1.0D, true)); // Enables attacks against skeletons

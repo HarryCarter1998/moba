@@ -2,15 +2,15 @@ package me.yoast.moba.pathfinders;
 
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftSkeleton;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftGuardian;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftZombie;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 
 import me.yoast.moba.mobs.Creep;
 import me.yoast.moba.mobs.Tower;
+import net.minecraft.server.v1_8_R3.EntityInsentient;
 import net.minecraft.server.v1_8_R3.EntityLiving;
 import net.minecraft.server.v1_8_R3.Navigation;
 import net.minecraft.server.v1_8_R3.PathfinderGoal;
@@ -21,6 +21,7 @@ public class PathfinderPriorities extends PathfinderGoal {
 	private Navigation navigation;
 	private Entity target;
 	private CraftEntity craftEntity;
+	private EntityInsentient entity;
 	
 	public PathfinderPriorities(Creep creep) {
 		this.creep = creep;
@@ -55,8 +56,8 @@ public class PathfinderPriorities extends PathfinderGoal {
 		}
 		if (nearbyCreepFlag == false) {
 			for(Entity nearbyEntity : targets) {
-				if(nearbyEntity instanceof CraftSkeleton) {
-					attackNearestEnemyTower((CraftSkeleton) nearbyEntity);
+				if(nearbyEntity instanceof CraftGuardian) {
+					attackNearestEnemyTower((CraftGuardian) nearbyEntity);
 				}		
 			}
 		}
@@ -88,12 +89,12 @@ public class PathfinderPriorities extends PathfinderGoal {
 		}
 	}
 	
-	public void attackNearestEnemyTower(CraftSkeleton nearbyEntity) {
+	public void attackNearestEnemyTower(CraftGuardian nearbyEntity) {
 		double minDistance = -1;
 		if(nearbyEntity == null) {
 			return;
 		}
-		Tower nmsTower = (Tower) ((CraftSkeleton) nearbyEntity).getHandle();
+		Tower nmsTower = (Tower) ((CraftGuardian) nearbyEntity).getHandle();
 		if (this.creep.getTeam().toString() != nmsTower.getTeam().toString()) {
 			if (minDistance == -1) {
 				minDistance = nearbyEntity.getLocation().distance(craftEntity.getLocation());
