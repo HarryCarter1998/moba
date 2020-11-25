@@ -2,14 +2,7 @@ package me.yoast.moba.mobs;
 
 import org.bukkit.entity.Player;
 
-import com.mojang.authlib.GameProfile;
-
-import me.yoast.moba.mobs.Creep.Team;
 import net.md_5.bungee.api.ChatColor;
-import net.minecraft.server.v1_8_R3.EntityPlayer;
-import net.minecraft.server.v1_8_R3.MinecraftServer;
-import net.minecraft.server.v1_8_R3.PlayerInteractManager;
-import net.minecraft.server.v1_8_R3.WorldServer;
 
 public class MobaPlayer{
 	

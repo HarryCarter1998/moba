@@ -2,7 +2,7 @@ package me.yoast.moba.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import me.yoast.moba.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
@@ -14,13 +14,13 @@ import me.yoast.moba.mobs.EntityTypes;
 
 public class CreepSpawner extends BukkitRunnable {
 
-	private final JavaPlugin plugin;
+	private final Main plugin;
 	private final List<Location> blueSpawns = new ArrayList<>();
 	private final List<Location> redSpawns = new ArrayList<>();
 	private int counter;
 	private CraftWorld world = null;
 	
-	public CreepSpawner(JavaPlugin plugin, int counter) {
+	public CreepSpawner(Main plugin, int counter) {
 		this.plugin = plugin;
 		this.counter = counter;
 		this.world = (CraftWorld) Bukkit.getWorld("world_1602090282");

@@ -12,11 +12,15 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftZombie;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import me.yoast.moba.Main;
 import me.yoast.moba.mobs.Creep;
+import me.yoast.moba.mobs.MobaPlayer;
 import me.yoast.moba.mobs.Tower;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
 
 public class Turret extends BukkitRunnable {
 	private CraftWorld world = null;
@@ -24,10 +28,12 @@ public class Turret extends BukkitRunnable {
 	private Entity target;
 	private CraftEntity craftEntity;
 	private double minDistance = -1;
+	private Main plugin;
 	
-	public Turret(Tower tower) {
+	public Turret(Tower tower, Main plugin) {
 		this.world = (CraftWorld) Bukkit.getWorld("world_1602090282");
 		this.tower = tower;
+		this.plugin = plugin;
 		craftEntity = this.tower.getBukkitEntity();
 	}
 
@@ -53,10 +59,13 @@ public class Turret extends BukkitRunnable {
 				this.cancel();
 			}
 		if (nearbyCreepFlag == false) {
-			for(Entity nearbyEntity : targets) {
-				if(nearbyEntity instanceof CraftPlayer) {
-					attackNearestEnemyPlayer((CraftPlayer) nearbyEntity);
-				}		
+			List<MobaPlayer> mobaPlayers = this.plugin.getMobaPlayers();
+			for(MobaPlayer nearbyEntity : mobaPlayers) {
+				Location towerLocation = this.tower.getBukkitEntity().getLocation();
+				Location playerLocation = nearbyEntity.getPlayer().getLocation();
+				if((towerLocation).distance(playerLocation) < 10) {
+					attackNearestEnemyPlayer(nearbyEntity);
+				}
 			}
 		}
 //		if(this.target != null) {
@@ -96,23 +105,23 @@ public class Turret extends BukkitRunnable {
 			
 			
 		        LivingEntity liv = (LivingEntity) this.target;
-		        liv.damage(10);
+		        liv.damage(2);
 		}
 			
 		
 	}
 	
-	public void attackNearestEnemyCreep(CraftPlayer nearbyEntity) {
-		Player nmsPlayer = (Player) ((CraftPlayer) nearbyEntity).getHandle();
-		if (this.tower.getTeam().toString() != nmsPlayer.getTeam().toString()) {
+	public void attackNearestEnemyPlayer(MobaPlayer nearbyEntity) {
+		Player nmsPlayer = nearbyEntity.getPlayer();
+		if (this.tower.getTeam().toString() != nearbyEntity.getTeam().toString()) {
 			if (this.minDistance == -1) {
-				this.minDistance = nearbyEntity.getLocation().distance(craftEntity.getLocation());
-				this.target = nearbyEntity;
+				this.minDistance = nmsPlayer.getLocation().distance(craftEntity.getLocation());
+				this.target = nmsPlayer;
 			} else {
-				double distance = nearbyEntity.getLocation().distance(craftEntity.getLocation());
+				double distance = nmsPlayer.getLocation().distance(craftEntity.getLocation());
 				if (distance < this.minDistance) {
 					this.minDistance = distance;
-					this.target = nearbyEntity;
+					this.target = nmsPlayer;
 				}
 			}
 				Location Loc1 = this.tower.getBukkitEntity().getLocation();
@@ -131,10 +140,9 @@ public class Turret extends BukkitRunnable {
 			
 			
 		        LivingEntity liv = (LivingEntity) this.target;
-		        liv.damage(10);
+		        liv.damage(2);
 		}
 			
-		
 	}
 	
 	Vector getDirectionBetweenLocations(Location Start, Location End) {

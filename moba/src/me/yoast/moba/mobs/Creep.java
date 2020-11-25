@@ -8,12 +8,13 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.plugin.java.JavaPlugin;
 
+import me.yoast.moba.Main;
 import me.yoast.moba.pathfinders.PathfinderPriorities;
 import me.yoast.moba.utils.DamageNearbyTower;
 import me.yoast.moba.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
+import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.EntityZombie;
 import net.minecraft.server.v1_8_R3.GenericAttributes;
 import net.minecraft.server.v1_8_R3.PathfinderGoalMeleeAttack;
@@ -27,9 +28,9 @@ public class Creep extends EntityZombie {
 	
 	private final float CREEPSPEED = 0.135f;
 	private Team team = null;
-	private JavaPlugin plugin;
+	private Main plugin;
 	
-	public Creep(Team team, CraftWorld world, JavaPlugin plugin) {
+	public Creep(Team team, CraftWorld world, Main plugin) {
 		
         super(((CraftWorld)world).getHandle());
         this.team = team;
@@ -42,8 +43,9 @@ public class Creep extends EntityZombie {
         setParams();
         new DamageNearbyTower(this).runTaskTimer(this.plugin, 0, 20);
 //		this.goalSelector.a(0, new PathfinderGoalFloat(this));
-        this.targetSelector.a(1, new PathfinderPriorities(this)); // Move to closest enemy creep
+        this.targetSelector.a(1, new PathfinderPriorities(this, this.plugin)); // Move to closest enemy creep
         this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityZombie.class, 1.0D, true)); // Enable attacks against zombies
+        this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityHuman.class, 1.0D, true));
         //this.goalSelector.a(3, new PathfinderGoalMeleeAttack(this, EntityGuardian.class, 1.0D, true)); // Enable attacks against zombies
         
 //        this.targetSelector.a(3, new PathfinderAttackEnemyTower(this)); // Move to closest enemy tower

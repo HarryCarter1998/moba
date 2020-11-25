@@ -18,7 +18,7 @@ public class Tower extends EntityMagmaCube {
 	}
 	
 	private Team team = null;
-	private Plugin plugin;
+	private Main plugin;
 	
 	public Tower(Team team, CraftWorld world, Main plugin) {
 		
@@ -31,7 +31,7 @@ public class Tower extends EntityMagmaCube {
         List targetC = (List)Utils.getPrivateField("c", PathfinderGoalSelector.class, targetSelector); targetC.clear();
 
         setParams();
-        new Turret(this).runTaskTimer(this.plugin, 0, 20);
+        new Turret(this, this.plugin).runTaskTimer(this.plugin, 0, 10);
         //this.targetSelector.a(2, new AttackPriorities(this)); // Move to closest enemy creep
         //this.goalSelector.a(2, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
         //this.targetSelector.a(3, new PathfinderGoalNearestAttackableTarget<EntityHuman>(this, EntityHuman.class, true));

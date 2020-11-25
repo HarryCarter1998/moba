@@ -26,9 +26,9 @@ public class SpawnMobsCommand implements CommandExecutor{
 	private List<MobaPlayer> mobaPlayers;
 	private CraftWorld world = (CraftWorld) Bukkit.getWorld("world_1602090282");
 	
-	public SpawnMobsCommand(Main plugin, ClickItemListener clickItemListener) {
+	public SpawnMobsCommand(Main plugin) {
 		this.plugin = plugin;
-		this.mobaPlayers = clickItemListener.getMobaPlayers();
+		this.mobaPlayers = plugin.getMobaPlayers();
 		plugin.getCommand("start").setExecutor(this);
 	}
 	
@@ -45,14 +45,14 @@ public class SpawnMobsCommand implements CommandExecutor{
 	}
 	
 	public void spawnMobs(){
-		Tower towerRed1 = new Tower(Tower.Team.RED, world, this.plugin);
-		EntityTypes.spawnEntity(towerRed1, new Location(world, -59.5, 7, -419.5));
-		Tower towerRed2 = new Tower(Tower.Team.RED, world, this.plugin);
-		EntityTypes.spawnEntity(towerRed2, new Location(world, -49.5, 7, -419.5));
-		Tower towerBlue1 = new Tower(Tower.Team.BLUE, world, this.plugin);
-		EntityTypes.spawnEntity(towerBlue1, new Location(world, -72.5, 7, -419.5));
-		Tower towerBlue2 = new Tower(Tower.Team.BLUE, world, this.plugin);
-		EntityTypes.spawnEntity(towerBlue2, new Location(world, -83.5, 7, -419.5));
+//		Tower towerRed1 = new Tower(Tower.Team.RED, world, this.plugin);
+//		EntityTypes.spawnEntity(towerRed1, new Location(world, -59.5, 7, -419.5));
+//		Tower towerRed2 = new Tower(Tower.Team.RED, world, this.plugin);
+//		EntityTypes.spawnEntity(towerRed2, new Location(world, -49.5, 7, -419.5));
+//		Tower towerBlue1 = new Tower(Tower.Team.BLUE, world, this.plugin);
+//		EntityTypes.spawnEntity(towerBlue1, new Location(world, -72.5, 7, -419.5));
+//		Tower towerBlue2 = new Tower(Tower.Team.BLUE, world, this.plugin);
+//		EntityTypes.spawnEntity(towerBlue2, new Location(world, -83.5, 7, -419.5));
 		
 		new WaveSeperator(this.plugin, 10).runTaskTimer(this.plugin, 0, 200);
 	}
