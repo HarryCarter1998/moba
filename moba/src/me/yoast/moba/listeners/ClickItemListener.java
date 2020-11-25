@@ -1,5 +1,6 @@
 package me.yoast.moba.listeners;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -19,7 +20,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class ClickItemListener implements Listener{
 	
-	List<MobaPlayer> mobaPlayers;
+	private List<MobaPlayer> mobaPlayers = new ArrayList<MobaPlayer>();
 	
 	public ClickItemListener(Main plugin) {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
@@ -28,26 +29,34 @@ public class ClickItemListener implements Listener{
 	
 	@EventHandler
 	public void onClick(PlayerInteractEvent event) {
-		
 		Player player = event.getPlayer();
 	    Action action = event.getAction();
 	    ItemStack item = player.getItemInHand();
-	    
-			if(item.getType() == Material.GOLD_SWORD) {
-				player.openInventory(InventoryUI.classSelector(player));
+		if(item.getType() == Material.GOLD_SWORD) {
+			player.openInventory(InventoryUI.classSelector(player));
+		}
+		MobaPlayer mobaPlayer = null;
+		if(item.getType() == Material.WOOL) {
+			if(item.getDurability() == 14) {
+				mobaPlayer = new MobaPlayer(player, Team.RED); 
+				Bukkit.broadcastMessage(player.getDisplayName() + " has joined" + ChatColor.RED + " red team");
 			}
-			MobaPlayer mobaPlayer;
-			if(item.getType() == Material.WOOL) {
-				if(item.getDurability() == 14) {
-					mobaPlayer = new MobaPlayer(player, Team.RED); 
-					Bukkit.broadcastMessage(player.getDisplayName() + " has joined" + ChatColor.RED + " red team");
-				}
-				else {
-					mobaPlayer = new MobaPlayer(player, Team.BLUE);
-					Bukkit.broadcastMessage(player.getDisplayName() + " has joined" + ChatColor.BLUE + " blue team");
-				}
-				this.mobaPlayers.add(mobaPlayer);				
+			else {
+				mobaPlayer = new MobaPlayer(player, Team.BLUE);
+				Bukkit.broadcastMessage(player.getDisplayName() + " has joined" + ChatColor.BLUE + " blue team");
 			}
+			//Bukkit.broadcastMessage(mobaPlayer.getTeam().toString());
+			this.mobaPlayers.add(mobaPlayer);	
+			//Bukkit.broadcastMessage(this.mobaPlayers.get(0).getTeam().toString());
+			
+			
+		}
+		
+	}
+	
+	public List<MobaPlayer> getMobaPlayers(){
+		//Bukkit.broadcastMessage(this.mobaPlayers.toString());
+		return this.mobaPlayers;
 	}
 
 }

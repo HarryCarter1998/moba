@@ -31,7 +31,11 @@ public class MobaPlayer{
 	}
 	
 	public Team getTeam() {
-		return team;
+		return this.team;
+	}
+	
+	public Player getPlayer() {
+		return this.player;
 	}
 	
 	public void setTeam(Team team) {

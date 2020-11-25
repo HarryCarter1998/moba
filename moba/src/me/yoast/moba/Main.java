@@ -17,10 +17,11 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		new ClassesCommand(this);
-		new SpawnMobsCommand(this);
+		ClickItemListener clickItemListener = new ClickItemListener(this);
+		new SpawnMobsCommand(this, clickItemListener);
 		new CreepDropListener(this);
 		new InventoryClickListener(this); 
-		new ClickItemListener(this);
+		
 		new CreepDamageListener(this);
 		new DropItemListener(this);
 		new SlimeSplitListener(this);
