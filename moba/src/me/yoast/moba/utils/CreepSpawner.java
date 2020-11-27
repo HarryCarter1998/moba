@@ -11,6 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.yoast.moba.mobs.Creep;
 import me.yoast.moba.mobs.EntityTypes;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
 
 public class CreepSpawner extends BukkitRunnable {
 
@@ -24,10 +25,10 @@ public class CreepSpawner extends BukkitRunnable {
 		this.plugin = plugin;
 		this.counter = counter;
 		this.world = (CraftWorld) Bukkit.getWorld("world_1602090282");
-//		blueSpawns.add(new Location(world, -82, 10, -337));
-//		redSpawns.add(new Location(world, 37, 10, -337));
-		blueSpawns.add(new Location(world, -90, 4, -419.5));
-		redSpawns.add(new Location(world, -42, 4, -419.5));
+//		blueSpawns.add(new Location(world, -91, 21, -577));
+//		redSpawns.add(new Location(world, 28, 21, -577));
+		blueSpawns.add(new Location(world, -90, 4, -420.5));
+		redSpawns.add(new Location(world, 12, 4, -420.5));
 	}
 
 	@Override
@@ -38,6 +39,12 @@ public class CreepSpawner extends BukkitRunnable {
 					EntityTypes.spawnEntity(new Creep(Creep.Team.RED, this.world, this.plugin), loc);
 				}
 				for(Location loc : blueSpawns) {
+//					Creep blueCreep = new Creep(Creep.Team.BLUE, this.world, this.plugin);
+//					NBTTagCompound nbt = new NBTTagCompound();
+////			        blueCreep.c(nbt);
+////			        nbt.setBoolean("Silent", true);
+////			        blueCreep.b(true);
+			        //Bukkit.broadcastMessage(blueCreep.get);
 					EntityTypes.spawnEntity(new Creep(Creep.Team.BLUE, this.world, this.plugin), loc);
 				}
 			counter--;

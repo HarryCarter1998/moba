@@ -20,7 +20,7 @@ public class WaveSeperator extends BukkitRunnable {
 	@Override
 	public void run() {
 		if (counter > 0) {
-			BukkitTask task = new CreepSpawner(this.plugin, 2).runTaskTimer(this.plugin, 0, 10);
+			new CreepSpawner(this.plugin, 2).runTaskTimer(this.plugin, 0, 10);
 			counter--;
 		} else {
 			this.cancel();

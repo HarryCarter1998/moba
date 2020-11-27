@@ -5,7 +5,7 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.plugin.Plugin;
 
 import me.yoast.moba.Main;
-import me.yoast.moba.utils.Turret;
+import me.yoast.moba.utils.TowerGun;
 import me.yoast.moba.utils.Utils;
 import net.minecraft.server.v1_8_R3.EntityMagmaCube;
 import net.minecraft.server.v1_8_R3.GenericAttributes;
@@ -31,16 +31,13 @@ public class Tower extends EntityMagmaCube {
         List targetC = (List)Utils.getPrivateField("c", PathfinderGoalSelector.class, targetSelector); targetC.clear();
 
         setParams();
-        new Turret(this, this.plugin).runTaskTimer(this.plugin, 0, 10);
-        //this.targetSelector.a(2, new AttackPriorities(this)); // Move to closest enemy creep
-        //this.goalSelector.a(2, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
-        //this.targetSelector.a(3, new PathfinderGoalNearestAttackableTarget<EntityHuman>(this, EntityHuman.class, true));
+        new TowerGun(this, this.plugin).runTaskTimer(this.plugin, 0, 10);
 	}
 	
 	private void setParams() {
 		this.setSize(2);
-		this.getAttributeInstance(GenericAttributes.maxHealth).setValue(50);
-		this.setHealth(50);
+		this.getAttributeInstance(GenericAttributes.maxHealth).setValue(500);
+		this.setHealth(500);
 	}
 
 	

@@ -45,9 +45,7 @@ public class ClickItemListener implements Listener{
 				mobaPlayer = new MobaPlayer(player, Team.BLUE);
 				Bukkit.broadcastMessage(player.getDisplayName() + " has joined" + ChatColor.BLUE + " blue team");
 			}
-			//Bukkit.broadcastMessage(mobaPlayer.getTeam().toString());
 			this.mobaPlayers.add(mobaPlayer);	
-			//Bukkit.broadcastMessage(this.mobaPlayers.get(0).getTeam().toString());
 			
 			
 		}
@@ -55,7 +53,6 @@ public class ClickItemListener implements Listener{
 	}
 	
 	public List<MobaPlayer> getMobaPlayers(){
-		//Bukkit.broadcastMessage(this.mobaPlayers.toString());
 		return this.mobaPlayers;
 	}
 

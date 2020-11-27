@@ -2,6 +2,7 @@ package me.yoast.moba.mobs;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
@@ -17,6 +18,7 @@ import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.EntityZombie;
 import net.minecraft.server.v1_8_R3.GenericAttributes;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.PathfinderGoalMeleeAttack;
 import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
 
@@ -42,27 +44,9 @@ public class Creep extends EntityZombie {
 
         setParams();
         new DamageNearbyTower(this).runTaskTimer(this.plugin, 0, 20);
-//		this.goalSelector.a(0, new PathfinderGoalFloat(this));
-        this.targetSelector.a(1, new PathfinderPriorities(this, this.plugin)); // Move to closest enemy creep
-        this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityZombie.class, 1.0D, true)); // Enable attacks against zombies
-        this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityHuman.class, 1.0D, true));
-        //this.goalSelector.a(3, new PathfinderGoalMeleeAttack(this, EntityGuardian.class, 1.0D, true)); // Enable attacks against zombies
-        
-//        this.targetSelector.a(3, new PathfinderAttackEnemyTower(this)); // Move to closest enemy tower
-//        this.goalSelector.a(4, new PathfinderGoalMeleeAttack(this, EntitySkeleton.class, 1.0D, true)); // Enables attacks against skeletons
-        
-//        this.goalSelector.a(7, new PathfinderGoalMeleeAttack(this, EntitySkeleton.class, 2.0D, true));
-//        this.targetSelector.a(8, new PathfinderGoalNearestAttackableTarget(this, EntitySkeleton.class, false));
-//        this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, 1.0D, false));
-//        this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, 1.0D, false));
-//        this.goalSelector.a(4, new PathfinderGoalMeleeAttack(this, EntityVillager.class, 1.0D, true));
-//        this.goalSelector.a(5, new PathfinderGoalMoveTowardsRestriction(this, 1.0D));
-//        this.goalSelector.a(6, new PathfinderGoalMoveThroughVillage(this, 1.0D, false));
-//        this.goalSelector.a(7, new PathfinderGoalRandomStroll(this, 1.0D));
-//        this.goalSelector.a(8, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
-//        this.goalSelector.a(8, new PathfinderGoalRandomLookaround(this));
-//        this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityHuman.class, true));
-//        this.targetSelector.a(2, new PathfinderGoalNearestAttackableTarget(this, EntityVillager.class, false));
+        this.goalSelector.a(1, new PathfinderPriorities(this, this.plugin)); // Move to closest enemy creep
+//        this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityZombie.class, 1.0D, true)); // Enable attacks against zombies
+//        this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityHuman.class, 1.0D, true));
         
 	}
 	
@@ -75,24 +59,24 @@ public class Creep extends EntityZombie {
 		this.setHealth(50);
 		this.setCustomNameVisible(true);
 		setBaby(true);
+		this.b(true);
 		
-		
+		String health = df.format(this.getMaxHealth()) + "/" + df.format(this.getMaxHealth());
+		Color color;
 		if (this.team == Team.RED) {
-			String health = df.format(this.getMaxHealth()) + "/" + df.format(this.getMaxHealth());
+			color = Color.RED;
 			this.setCustomName(ChatColor.RED + health);
-			this.setCreepArmour(Material.LEATHER_HELMET, Color.RED, this);
-			this.setCreepArmour(Material.LEATHER_CHESTPLATE, Color.RED, this);
-			this.setCreepArmour(Material.LEATHER_LEGGINGS, Color.RED, this);
-			this.setCreepArmour(Material.LEATHER_BOOTS, Color.RED, this);
 		} else {
-			String health = df.format(this.getMaxHealth()) + "/" + df.format(this.getMaxHealth());
+			color = Color.BLUE;
 			this.setCustomName(ChatColor.BLUE + health);
-			this.setCreepArmour(Material.LEATHER_HELMET, Color.BLUE, this);
-			this.setCreepArmour(Material.LEATHER_CHESTPLATE, Color.BLUE, this);
-			this.setCreepArmour(Material.LEATHER_LEGGINGS, Color.BLUE, this);
-			this.setCreepArmour(Material.LEATHER_BOOTS, Color.BLUE, this);
+			
 		}
+		this.setCreepArmour(Material.LEATHER_HELMET, color, this);
+		this.setCreepArmour(Material.LEATHER_CHESTPLATE, color, this);
+		this.setCreepArmour(Material.LEATHER_LEGGINGS, color, this);
+		this.setCreepArmour(Material.LEATHER_BOOTS, color, this);
 	}
+	
 	private void setCreepArmour(Material material, Color colour, Creep creep) {
 		LivingEntity livingEntity = (LivingEntity) creep.getBukkitEntity();
 		ItemStack armor = new ItemStack(material);
@@ -121,8 +105,9 @@ public class Creep extends EntityZombie {
 		this.team = team;
 	}
 	
-//	@Override
-//	public void g(double d0, double d1, double d2) {
-//        this.ai = true;
-//    }
+	@Override
+	protected void D() {
+       //Bukkit.broadcastMessage("bruh");
+    }
+
 }

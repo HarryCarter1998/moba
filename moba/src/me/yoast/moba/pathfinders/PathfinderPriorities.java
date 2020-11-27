@@ -1,24 +1,34 @@
 package me.yoast.moba.pathfinders;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftMagmaCube;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftZombie;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+import me.yoast.moba.Main;
 import me.yoast.moba.mobs.Creep;
 import me.yoast.moba.mobs.MobaPlayer;
 import me.yoast.moba.mobs.Tower;
+import net.minecraft.server.v1_8_R3.BlockPosition;
+import net.minecraft.server.v1_8_R3.DamageSource;
 import net.minecraft.server.v1_8_R3.EntityInsentient;
 import net.minecraft.server.v1_8_R3.EntityLiving;
+import net.minecraft.server.v1_8_R3.MinecraftServer;
 import net.minecraft.server.v1_8_R3.Navigation;
 import net.minecraft.server.v1_8_R3.PathfinderGoal;
-import me.yoast.moba.Main;
 
 public class PathfinderPriorities extends PathfinderGoal {
 	
@@ -26,7 +36,6 @@ public class PathfinderPriorities extends PathfinderGoal {
 	private Navigation navigation;
 	private Entity target;
 	private CraftEntity craftEntity;
-	private EntityInsentient entity;
 	private double minDistance = -1;
 	private Main plugin;
 	
@@ -35,7 +44,7 @@ public class PathfinderPriorities extends PathfinderGoal {
 		this.plugin = plugin;
 		this.navigation = (Navigation) this.creep.getNavigation();
 		this.target = null;
-		craftEntity = this.creep.getBukkitEntity();
+		this.craftEntity = this.creep.getBukkitEntity();
 	}
 
 	@Override
@@ -46,112 +55,126 @@ public class PathfinderPriorities extends PathfinderGoal {
 	
 	@Override
 	public void e() {
+		
+		List<Entity> nearbyEntities  = ((Entity) craftEntity).getNearbyEntities(200, 5, 200);
+		List<MobaPlayer> mobaPlayers = this.plugin.getMobaPlayers();
+		List<MobaPlayer> nearbyMobaPlayers = new ArrayList<MobaPlayer>();
+		List<CraftZombie> nearbyCreeps = new ArrayList<CraftZombie>();
+		List<CraftMagmaCube> nearbyTowers = new ArrayList<CraftMagmaCube>();
 		this.creep.getNavigation().n();
-		List<Entity> targets  = ((Entity) craftEntity).getNearbyEntities(50, 5, 50);
-		boolean nearbyCreepFlag = false;
-		boolean nearbyTowerFlag = false;
-		for(Entity nearbyEntity : targets) {
-			if(!nearbyEntity.isDead()) {
+		
+		for(Entity nearbyEntity : nearbyEntities) {
 				if(nearbyEntity instanceof CraftZombie) {
 					Creep nmsCreep = (Creep) ((CraftZombie) nearbyEntity).getHandle();
 					if (this.creep.getTeam() != nmsCreep.getTeam()) {
-						nearbyCreepFlag = true;
-						attackNearestEnemyCreep((CraftZombie) nearbyEntity);
+						Location thisCreepLocation = this.creep.getBukkitEntity().getLocation();
+						Location targetCreepLocation = nmsCreep.getBukkitEntity().getLocation();
+						if(thisCreepLocation.distance(targetCreepLocation) < 10) {
+							nearbyCreeps.add((CraftZombie) nearbyEntity);
+						}
 					}
 					
 				}	
-			}
-		}
-		if (nearbyCreepFlag == false) {
-			for(Entity nearbyEntity : targets) {
-				if(!nearbyEntity.isDead()) {
-					if(nearbyEntity instanceof CraftMagmaCube) {
-						Tower nmsTower = (Tower) ((CraftMagmaCube) nearbyEntity).getHandle();
+				if(nearbyEntity instanceof CraftMagmaCube) {
+					Tower nmsTower = (Tower) ((CraftMagmaCube) nearbyEntity).getHandle();
+					if (this.creep.getTeam().toString() != nmsTower.getTeam().toString()) {
+						nearbyTowers.add((CraftMagmaCube) nearbyEntity);
 					
-						if (this.creep.getTeam().toString() != nmsTower.getTeam().toString()) {
-							nearbyTowerFlag = true;
-							attackNearestEnemyTower((CraftMagmaCube) nearbyEntity);
-						
-						}		
 					}
+				}
+		}
+		for(MobaPlayer mobaPlayer : mobaPlayers) {
+			Location creepLocation = this.creep.getBukkitEntity().getLocation();
+			Location playerLocation = mobaPlayer.getPlayer().getLocation();
+			if(creepLocation.distance(playerLocation) < 10) {
+				if (this.creep.getTeam().toString() != mobaPlayer.getTeam().toString()) {
+					nearbyMobaPlayers.add(mobaPlayer);
 				}
 			}
 		}
-	//		Bukkit.broadcastMessage("nearbyCreepFlag = " + nearbyCreepFlag);
-	//		Bukkit.broadcastMessage("nearbyTowerFlag = " + nearbyTowerFlag);
-		if (!nearbyCreepFlag) {
-			List<MobaPlayer> mobaPlayers = this.plugin.getMobaPlayers();
-			for(MobaPlayer nearbyEntity : mobaPlayers) {
-					attackNearestEnemyPlayer(nearbyEntity);
-				
-			}
+		if(this.craftEntity.getLocation().subtract(0, 2, 0).getBlock().getType() != Material.GOLD_BLOCK) {
+			attackNearestEnemyTower(nearbyTowers);
 		}
+		else if (nearbyCreeps.size()>0) {
+			attackNearestEnemyCreep(nearbyCreeps);
+		}
+		else if (nearbyMobaPlayers.size()>0) {
+			attackNearestEnemyPlayer(nearbyMobaPlayers);
+		}
+		else {
+			
+			attackNearestEnemyTower(nearbyTowers);
+		}
+		
 		if(this.target != null) {
 			if(!this.target.isDead()) {
+				this.creep.setGoalTarget((EntityLiving) ((CraftEntity) this.target).getHandle(), TargetReason.CLOSEST_ENTITY, false);
 				CraftEntity craftTarget = (CraftEntity) this.target;
 				this.navigation.a(craftTarget.getHandle(), 1.0D);
 			}
 		}	
 		
+		this.minDistance = -1;
 		
 	}
 	
-	public void attackNearestEnemyCreep(CraftZombie nearbyEntity) {
+	public void attackNearestEnemyCreep(List<CraftZombie> nearbyCreeps) {
 		
-		Creep nmsCreep = (Creep) ((CraftZombie) nearbyEntity).getHandle();
-		if (this.creep.getTeam() != nmsCreep.getTeam()) {
-			if (this.minDistance == -1) {
-				this.minDistance = nearbyEntity.getLocation().distance(craftEntity.getLocation());
-				this.target = nearbyEntity;
-			} else {
-				double distance = nearbyEntity.getLocation().distance(craftEntity.getLocation());
+		for(Entity nearbyCreep : nearbyCreeps) {
+			if(this.minDistance == -1) {
+				this.target = nearbyCreep;
+				this.minDistance = nearbyCreep.getLocation().distance(craftEntity.getLocation());
+			}
+			else {
+				double distance = nearbyCreep.getLocation().distance(craftEntity.getLocation());
 				if (distance < this.minDistance) {
+					this.target = nearbyCreep;
 					this.minDistance = distance;
-					this.target = nearbyEntity;
 				}
 			}
-				this.creep.setGoalTarget((EntityLiving) ((CraftEntity) this.target).getHandle(), TargetReason.CLOSEST_ENTITY, false);
-				
-			
+		}
+		LivingEntity livingCreep = (LivingEntity) this.creep.getBukkitEntity();
+		if(this.minDistance<1.5) {
+			livingCreep.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 100));
+		}else {
+			livingCreep.getActivePotionEffects().clear();
 		}
 	}
 	
-	public void attackNearestEnemyTower(CraftMagmaCube nearbyEntity) {
+	public void attackNearestEnemyTower(List<CraftMagmaCube> nearbyTowers) {
 		
-		Tower nmsTower = (Tower) ((CraftMagmaCube) nearbyEntity).getHandle();
-		if (this.creep.getTeam().toString() != nmsTower.getTeam().toString()) {
-			if (this.minDistance == -1) {
-				this.minDistance = nearbyEntity.getLocation().distance(craftEntity.getLocation());
-				this.target = nearbyEntity;
-			} else {
-				double distance = nearbyEntity.getLocation().distance(craftEntity.getLocation());
+		for(Entity nearbyTower : nearbyTowers) {
+			if(this.minDistance == -1) {
+				this.target = nearbyTower;
+				this.minDistance = nearbyTower.getLocation().distance(craftEntity.getLocation());
+			}
+			else {
+				double distance = nearbyTower.getLocation().distance(craftEntity.getLocation());
 				if (distance < this.minDistance) {
+					this.target = nearbyTower;
 					this.minDistance = distance;
-					this.target = nearbyEntity;
 				}
 			}
-				this.creep.setGoalTarget((EntityLiving) ((CraftEntity) this.target).getHandle(), TargetReason.CLOSEST_ENTITY, false);
-			
 		}
 	}
 	
-	public void attackNearestEnemyPlayer(MobaPlayer nearbyEntity) {
+	public void attackNearestEnemyPlayer(List<MobaPlayer> nearbyPlayers) {
 		
-		Player nmsPlayer = nearbyEntity.getPlayer();
-		if (this.creep.getTeam().toString() != nearbyEntity.getTeam().toString()) {
-			if (this.minDistance == -1) {
-				this.minDistance = nmsPlayer.getLocation().distance(craftEntity.getLocation());
-				this.target = nmsPlayer;
-			} else {
-				double distance = nmsPlayer.getLocation().distance(craftEntity.getLocation());
+		for(MobaPlayer nearbyMobaPlayer : nearbyPlayers) {
+			Player nearbyPlayer = nearbyMobaPlayer.getPlayer();
+			if(this.minDistance == -1) {
+				this.target = nearbyPlayer;
+				this.minDistance = nearbyPlayer.getLocation().distance(craftEntity.getLocation());
+			}
+			else {
+				double distance = nearbyPlayer.getLocation().distance(craftEntity.getLocation());
 				if (distance < this.minDistance) {
+					this.target = nearbyPlayer;
 					this.minDistance = distance;
-					this.target = nmsPlayer;
 				}
 			}
-				this.creep.setGoalTarget((EntityLiving) ((CraftEntity) this.target).getHandle(), TargetReason.CLOSEST_ENTITY, false);
-			
 		}
 	}
 	
+
 }

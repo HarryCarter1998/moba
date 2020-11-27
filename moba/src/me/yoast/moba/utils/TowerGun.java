@@ -22,7 +22,7 @@ import me.yoast.moba.mobs.MobaPlayer;
 import me.yoast.moba.mobs.Tower;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 
-public class Turret extends BukkitRunnable {
+public class TowerGun extends BukkitRunnable {
 	private CraftWorld world = null;
 	private Tower tower;
 	private Entity target;
@@ -30,7 +30,7 @@ public class Turret extends BukkitRunnable {
 	private double minDistance = -1;
 	private Main plugin;
 	
-	public Turret(Tower tower, Main plugin) {
+	public TowerGun(Tower tower, Main plugin) {
 		this.world = (CraftWorld) Bukkit.getWorld("world_1602090282");
 		this.tower = tower;
 		this.plugin = plugin;
@@ -62,18 +62,14 @@ public class Turret extends BukkitRunnable {
 			List<MobaPlayer> mobaPlayers = this.plugin.getMobaPlayers();
 			for(MobaPlayer nearbyEntity : mobaPlayers) {
 				Location towerLocation = this.tower.getBukkitEntity().getLocation();
+				
+				
 				Location playerLocation = nearbyEntity.getPlayer().getLocation();
 				if((towerLocation).distance(playerLocation) < 10) {
 					attackNearestEnemyPlayer(nearbyEntity);
 				}
 			}
 		}
-//		if(this.target != null) {
-//			if(!this.target.isDead()) {
-//				//CraftEntity craftTarget = (CraftEntity) this.target;
-//				//this.navigation.a(craftTarget.getHandle(), 1.0D);
-//			}
-//		}	
 	}
 
 	public void attackNearestEnemyCreep(CraftZombie nearbyEntity) {
@@ -89,17 +85,19 @@ public class Turret extends BukkitRunnable {
 					this.target = nearbyEntity;
 				}
 			}
-				Location Loc1 = this.tower.getBukkitEntity().getLocation();
-				Location Loc2 = this.target.getLocation();
-				Vector vector = getDirectionBetweenLocations(Loc1, Loc2);
+				Location towerLoc = this.tower.getBukkitEntity().getLocation();
+				Location towerLocation = new Location(this.world, towerLoc.getX(),towerLoc.getY()+0.5,towerLoc.getZ());
+				Location creepLoc = this.target.getLocation();
+				Location creepLocation = new Location(this.world, creepLoc.getX(),creepLoc.getY()+0.5,creepLoc.getZ());
+				Vector vector = getDirectionBetweenLocations(towerLocation, creepLocation);
 				if(this.target.isDead()) {
 					return;
 				}
-		        for (double i = 1; i <= Loc1.distance(Loc2); i += 0.5) {
+		        for (double i = 1; i <= towerLocation.distance(creepLocation); i += 0.5) {
 		            vector.multiply(i);
-		            Loc1.add(vector);
-		            Loc1.getWorld().spigot().playEffect(Loc1, Effect.FLAME, 0, 0, 0, 0, 0, 1, 0, 100);
-		            Loc1.subtract(vector);
+		            towerLocation.add(vector);
+		            towerLocation.getWorld().spigot().playEffect(towerLocation, Effect.FLAME, 0, 0, 0, 0, 0, 1, 0, 100);
+		            towerLocation.subtract(vector);
 		            vector.normalize();
 		        }
 			
@@ -124,17 +122,19 @@ public class Turret extends BukkitRunnable {
 					this.target = nmsPlayer;
 				}
 			}
-				Location Loc1 = this.tower.getBukkitEntity().getLocation();
-				Location Loc2 = this.target.getLocation();
-				Vector vector = getDirectionBetweenLocations(Loc1, Loc2);
+			Location towerLoc = this.tower.getBukkitEntity().getLocation();
+			Location towerLocation = new Location(this.world, towerLoc.getX(),towerLoc.getY()+0.5,towerLoc.getZ());
+			Location playerLoc = this.target.getLocation();
+			Location playerLocation = new Location(this.world, playerLoc.getX(),playerLoc.getY()+1,playerLoc.getZ());
+			Vector vector = getDirectionBetweenLocations(towerLocation, playerLocation);
 				if(this.target.isDead()) {
 					return;
 				}
-		        for (double i = 1; i <= Loc1.distance(Loc2); i += 0.5) {
+		        for (double i = 1; i <= towerLocation.distance(playerLocation); i += 0.5) {
 		            vector.multiply(i);
-		            Loc1.add(vector);
-		            Loc1.getWorld().spigot().playEffect(Loc1, Effect.FLAME, 0, 0, 0, 0, 0, 1, 0, 100);
-		            Loc1.subtract(vector);
+		            towerLocation.add(vector);
+		            towerLocation.getWorld().spigot().playEffect(towerLocation, Effect.FLAME, 0, 0, 0, 0, 0, 1, 0, 100);
+		            towerLocation.subtract(vector);
 		            vector.normalize();
 		        }
 			

@@ -9,11 +9,8 @@ public class MobaPlayer{
 	public enum Team {
 		RED, BLUE
 	}
-
-
 	private Team team = null;
 	private Player player = null;
-
 
 	public MobaPlayer(Player player, Team team) {
 		super();
