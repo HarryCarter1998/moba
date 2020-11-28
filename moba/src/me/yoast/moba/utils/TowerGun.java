@@ -40,24 +40,25 @@ public class TowerGun extends BukkitRunnable {
 
 	@Override
 	public void run() {
-				List<Entity> targets  = ((Entity) craftEntity).getNearbyEntities(10, 5, 10);
-				boolean nearbyCreepFlag = false;
-				for(Entity nearbyEntity : targets) {
-					if(!nearbyEntity.isDead()) {
-						if(nearbyEntity instanceof CraftZombie) {
-							Creep nmsCreep = (Creep) ((CraftZombie) nearbyEntity).getHandle();
-							if (this.tower.getTeam().toString() != nmsCreep.getTeam().toString()) {
-								nearbyCreepFlag = true;
-								attackNearestEnemyCreep((CraftZombie) nearbyEntity);
-							}
-							
-						}	
+		List<Entity> targets  = ((Entity) craftEntity).getNearbyEntities(10, 5, 10);
+		boolean nearbyCreepFlag = false;
+		
+		if(!this.tower.isAlive()) {
+			this.cancel();
+		}
+		
+		for(Entity nearbyEntity : targets) {
+			if(!nearbyEntity.isDead()) {
+				if(nearbyEntity instanceof CraftZombie) {
+					Creep nmsCreep = (Creep) ((CraftZombie) nearbyEntity).getHandle();
+					if (this.tower.getTeam().toString() != nmsCreep.getTeam().toString()) {
+						nearbyCreepFlag = true;
+						attackNearestEnemyCreep((CraftZombie) nearbyEntity);
 					}
-				}
-				this.minDistance = -1;
-			if(!this.tower.isAlive()) {
-				this.cancel();
+					
+				}	
 			}
+		}
 		if (nearbyCreepFlag == false) {
 			List<MobaPlayer> mobaPlayers = this.plugin.getMobaPlayers();
 			for(MobaPlayer nearbyEntity : mobaPlayers) {
@@ -70,6 +71,7 @@ public class TowerGun extends BukkitRunnable {
 				}
 			}
 		}
+		this.minDistance = -1;
 	}
 
 	public void attackNearestEnemyCreep(CraftZombie nearbyEntity) {

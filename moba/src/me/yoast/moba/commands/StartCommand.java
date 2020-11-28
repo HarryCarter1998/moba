@@ -77,7 +77,7 @@ public class StartCommand implements CommandExecutor{
 	
 	public void spawnPlayers() {
 		
-		Location redSpawn = new Location(world, -60, 4, -420);
+		Location redSpawn = new Location(world, -11, 4, -420);
 		Location blueSpawn = new Location(world, -84, 4, -420);
 //		Location redSpawn = new Location(world, -0, 27, -582);
 //		Location blueSpawn = new Location(world, -0, 27, -582);

@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import me.yoast.moba.Main;
 import me.yoast.moba.pathfinders.PathfinderPriorities;
-import me.yoast.moba.utils.DamageNearbyTower;
+import me.yoast.moba.utils.DamageTarget;
 import me.yoast.moba.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_8_R3.EntityHuman;
@@ -43,8 +43,8 @@ public class Creep extends EntityZombie {
         List targetC = (List)Utils.getPrivateField("c", PathfinderGoalSelector.class, targetSelector); targetC.clear();
 
         setParams();
-        new DamageNearbyTower(this).runTaskTimer(this.plugin, 0, 20);
-        this.goalSelector.a(1, new PathfinderPriorities(this, this.plugin)); // Move to closest enemy creep
+        new DamageTarget(this, this.plugin).runTaskTimer(this.plugin, 0, 40);
+        this.goalSelector.a(200, new PathfinderPriorities(this, this.plugin)); // Move to closest enemy creep
 //        this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityZombie.class, 1.0D, true)); // Enable attacks against zombies
 //        this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityHuman.class, 1.0D, true));
         
@@ -104,10 +104,6 @@ public class Creep extends EntityZombie {
 	public void setTeam(Team team) {
 		this.team = team;
 	}
-	
-	@Override
-	protected void D() {
-       //Bukkit.broadcastMessage("bruh");
-    }
+
 
 }

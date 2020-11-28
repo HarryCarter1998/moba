@@ -21,20 +21,14 @@ public class ChunkUnloadListener implements Listener{
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-//	@EventHandler(priority = EventPriority.LOWEST)
-//	public void onEntityDespawn(ChunkUnloadEvent e) {
-//	    for(Entity entity:e.getChunk().getEntities()) {
-//	        if(entity instanceof CraftMagmaCube || entity instanceof CraftZombie) { 
-//	        	e.setCancelled(true);
-//	        	break;
-//	        }
-//	    }
-//	}
 	@EventHandler(priority = EventPriority.LOWEST)
-	public void onEntityDespawn(EntityDeathEvent e) {
-		if(e.getEntity() instanceof CraftMagmaCube) {
-			Bukkit.broadcastMessage("Magma has died");
-			Bukkit.broadcastMessage(e.getEntity().getLastDamageCause().getCause().toString());
+	public void onEntityDespawn(ChunkUnloadEvent e) {
+	    for(Entity entity:e.getChunk().getEntities()) {
+	        if(entity instanceof CraftMagmaCube || entity instanceof CraftZombie) { 
+	        	e.setCancelled(true);
+	        	break;
+	        }
+	    }
 	}
-	}
+
 }

@@ -2,6 +2,7 @@ package me.yoast.moba;
 
 import java.util.List;
 
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.yoast.moba.commands.ClassesCommand;
@@ -41,6 +42,17 @@ public class Main extends JavaPlugin {
 	public List<MobaPlayer> getMobaPlayers() {
 		return clickItemListener.getMobaPlayers();
 	}
+	
+	public MobaPlayer getMobaPlayer(Player player) {
+		List<MobaPlayer> mobaPlayers = getMobaPlayers();
+		for(MobaPlayer mobaPlayer : mobaPlayers) {
+			if (mobaPlayer.getPlayer().equals(player)) {
+				return mobaPlayer;
+			}
+		}
+		return null;
+	
+	}
 	// TODO
 	// Update Player HP bars on Heal (EntityRegainHealthEvent if e.getEntity instanceof Player)
 	// Shops
@@ -49,5 +61,7 @@ public class Main extends JavaPlugin {
 	
 	//custom creep damager
 	//range team kill
+	//improve start
+	
 	
 }

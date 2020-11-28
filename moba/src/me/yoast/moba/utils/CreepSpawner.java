@@ -39,12 +39,6 @@ public class CreepSpawner extends BukkitRunnable {
 					EntityTypes.spawnEntity(new Creep(Creep.Team.RED, this.world, this.plugin), loc);
 				}
 				for(Location loc : blueSpawns) {
-//					Creep blueCreep = new Creep(Creep.Team.BLUE, this.world, this.plugin);
-//					NBTTagCompound nbt = new NBTTagCompound();
-////			        blueCreep.c(nbt);
-////			        nbt.setBoolean("Silent", true);
-////			        blueCreep.b(true);
-			        //Bukkit.broadcastMessage(blueCreep.get);
 					EntityTypes.spawnEntity(new Creep(Creep.Team.BLUE, this.world, this.plugin), loc);
 				}
 			counter--;

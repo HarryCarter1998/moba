@@ -38,6 +38,7 @@ public class PathfinderPriorities extends PathfinderGoal {
 	private CraftEntity craftEntity;
 	private double minDistance = -1;
 	private Main plugin;
+	private List<MobaPlayer> mobaPlayers; 
 	
 	public PathfinderPriorities(Creep creep, Main plugin) {
 		this.creep = creep;
@@ -45,6 +46,8 @@ public class PathfinderPriorities extends PathfinderGoal {
 		this.navigation = (Navigation) this.creep.getNavigation();
 		this.target = null;
 		this.craftEntity = this.creep.getBukkitEntity();
+		this.mobaPlayers = this.plugin.getMobaPlayers();
+		
 	}
 
 	@Override
@@ -55,9 +58,9 @@ public class PathfinderPriorities extends PathfinderGoal {
 	
 	@Override
 	public void e() {
-		
+		//Bukkit.broadcastMessage(this.creep.getTeam().toString());
 		List<Entity> nearbyEntities  = ((Entity) craftEntity).getNearbyEntities(200, 5, 200);
-		List<MobaPlayer> mobaPlayers = this.plugin.getMobaPlayers();
+		
 		List<MobaPlayer> nearbyMobaPlayers = new ArrayList<MobaPlayer>();
 		List<CraftZombie> nearbyCreeps = new ArrayList<CraftZombie>();
 		List<CraftMagmaCube> nearbyTowers = new ArrayList<CraftMagmaCube>();
@@ -75,6 +78,7 @@ public class PathfinderPriorities extends PathfinderGoal {
 					}
 					
 				}	
+				
 				if(nearbyEntity instanceof CraftMagmaCube) {
 					Tower nmsTower = (Tower) ((CraftMagmaCube) nearbyEntity).getHandle();
 					if (this.creep.getTeam().toString() != nmsTower.getTeam().toString()) {
@@ -121,16 +125,10 @@ public class PathfinderPriorities extends PathfinderGoal {
 	public void attackNearestEnemyCreep(List<CraftZombie> nearbyCreeps) {
 		
 		for(Entity nearbyCreep : nearbyCreeps) {
-			if(this.minDistance == -1) {
+			double distance = nearbyCreep.getLocation().distance(craftEntity.getLocation());
+			if(this.minDistance == -1 || distance < this.minDistance) {
 				this.target = nearbyCreep;
-				this.minDistance = nearbyCreep.getLocation().distance(craftEntity.getLocation());
-			}
-			else {
-				double distance = nearbyCreep.getLocation().distance(craftEntity.getLocation());
-				if (distance < this.minDistance) {
-					this.target = nearbyCreep;
-					this.minDistance = distance;
-				}
+				this.minDistance = distance;
 			}
 		}
 		LivingEntity livingCreep = (LivingEntity) this.creep.getBukkitEntity();
@@ -144,16 +142,10 @@ public class PathfinderPriorities extends PathfinderGoal {
 	public void attackNearestEnemyTower(List<CraftMagmaCube> nearbyTowers) {
 		
 		for(Entity nearbyTower : nearbyTowers) {
-			if(this.minDistance == -1) {
+			double distance = nearbyTower.getLocation().distance(craftEntity.getLocation());
+			if(this.minDistance == -1 || distance < this.minDistance) {
 				this.target = nearbyTower;
-				this.minDistance = nearbyTower.getLocation().distance(craftEntity.getLocation());
-			}
-			else {
-				double distance = nearbyTower.getLocation().distance(craftEntity.getLocation());
-				if (distance < this.minDistance) {
-					this.target = nearbyTower;
-					this.minDistance = distance;
-				}
+				this.minDistance = distance;
 			}
 		}
 	}
@@ -162,16 +154,10 @@ public class PathfinderPriorities extends PathfinderGoal {
 		
 		for(MobaPlayer nearbyMobaPlayer : nearbyPlayers) {
 			Player nearbyPlayer = nearbyMobaPlayer.getPlayer();
-			if(this.minDistance == -1) {
+			double distance = nearbyPlayer.getLocation().distance(craftEntity.getLocation());
+			if(this.minDistance == -1 || distance < this.minDistance) {
 				this.target = nearbyPlayer;
-				this.minDistance = nearbyPlayer.getLocation().distance(craftEntity.getLocation());
-			}
-			else {
-				double distance = nearbyPlayer.getLocation().distance(craftEntity.getLocation());
-				if (distance < this.minDistance) {
-					this.target = nearbyPlayer;
-					this.minDistance = distance;
-				}
+				this.minDistance = distance;
 			}
 		}
 	}
