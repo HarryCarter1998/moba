@@ -23,8 +23,7 @@ public class XMLReader {
 		try {  
 			//creating a constructor of file class and parsing an XML file  
 			//File file = new File("./classes.xml");  
-			InputStream file = XMLReader.class.getClassLoader()
-		            .getResourceAsStream("classes.xml");
+			InputStream file = XMLReader.class.getClassLoader().getResourceAsStream("classes.xml");
 			//an instance of factory that gives a document builder  
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();  
 			//an instance of builder to parse the specified xml file  

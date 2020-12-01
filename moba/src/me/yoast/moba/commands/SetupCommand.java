@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -40,6 +42,7 @@ public class SetupCommand implements CommandExecutor{
 			player.getInventory().addItem(redWool);
 			player.getInventory().addItem(blueWool);
 			this.plugin.addMobaPlayer(new MobaPlayer(player));
+			((CraftPlayer) player).setGameMode(GameMode.ADVENTURE);
 		}
 		
 		return false;

@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import me.yoast.moba.Main;
 import me.yoast.moba.utils.Utils;
@@ -28,7 +29,6 @@ public class InventoryClickListener implements Listener{
 
 	@EventHandler
 	public void onClick(InventoryClickEvent e) {
-		//e.setCancelled(true);
 		String title = e.getInventory().getTitle();
 		if(title.equals(Utils.chat("&f&lClasses"))) {
 			e.setCancelled(true);
@@ -46,6 +46,9 @@ public class InventoryClickListener implements Listener{
 		for(int i=0; i<xmlItems.size(); i++) {
 			String itemString = xmlItems.get(i);
 			ItemStack item = new ItemStack(Material.getMaterial(itemString), 1);
+			ItemMeta itemMeta = item.getItemMeta();
+		    itemMeta.spigot().setUnbreakable(true);
+		    item.setItemMeta(itemMeta);
 			if(isArmor(item)) {
 				armor.add(item);
 			} else {
@@ -53,7 +56,6 @@ public class InventoryClickListener implements Listener{
 			}
 		}
 		this.plugin.getMobaPlayer(player).setClassItems(items);
-		Bukkit.broadcastMessage(items.toString());
 		this.plugin.getMobaPlayer(player).setClassArmor(armor);
 	}
 	

@@ -32,7 +32,6 @@ public class ClickItemListener implements Listener{
 		Player player = event.getPlayer();
 	    ItemStack item = player.getItemInHand();
 		if(item.getType() == Material.GOLD_SWORD) {
-			//player.openInventory(InventoryUI.classSelector(player));
 			new ClassSelector(player, this.plugin);
 		}
 		MobaPlayer mobaPlayer = this.plugin.getMobaPlayer(player);

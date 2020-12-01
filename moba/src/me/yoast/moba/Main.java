@@ -11,11 +11,12 @@ import me.yoast.moba.commands.SetupCommand;
 import me.yoast.moba.commands.StartCommand;
 import me.yoast.moba.listeners.ChunkUnloadListener;
 import me.yoast.moba.listeners.ClickItemListener;
-import me.yoast.moba.listeners.CreepDamageListener;
+import me.yoast.moba.listeners.EntityDamageListener;
 import me.yoast.moba.listeners.CreepDropListener;
 import me.yoast.moba.listeners.DropItemListener;
 import me.yoast.moba.listeners.FoodLevelChangeListener;
 import me.yoast.moba.listeners.InventoryClickListener;
+import me.yoast.moba.listeners.PlayerDeathListener;
 import me.yoast.moba.listeners.SlimeSplitListener;
 import me.yoast.moba.mobs.MobaPlayer;
 import me.yoast.moba.ui.InventoryUI;
@@ -31,12 +32,13 @@ public class Main extends JavaPlugin {
 		new StartCommand(this);
 		new CreepDropListener(this);
 		new InventoryClickListener(this); 
-		new CreepDamageListener(this);
+		new EntityDamageListener(this);
 		new DropItemListener(this);
 		new SlimeSplitListener(this);
 		new FoodLevelChangeListener(this);
 		new ChunkUnloadListener(this);
 		new SetupCommand(this);
+		new PlayerDeathListener(this);
 		
 		InventoryUI.initialize();
 	}
@@ -66,7 +68,6 @@ public class Main extends JavaPlugin {
 	// Items
 	// More classes
 	
-	//improve start
 	
 	
 }

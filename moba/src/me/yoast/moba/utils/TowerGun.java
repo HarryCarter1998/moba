@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
@@ -105,10 +106,8 @@ public class TowerGun extends BukkitRunnable {
 			
 			
 		        LivingEntity liv = (LivingEntity) this.target;
-		        liv.damage(2);
-		}
-			
-		
+		        	liv.damage(2);
+		        }
 	}
 	
 	public void attackNearestEnemyPlayer(MobaPlayer nearbyEntity) {
@@ -142,7 +141,15 @@ public class TowerGun extends BukkitRunnable {
 			
 			
 		        LivingEntity liv = (LivingEntity) this.target;
-		        liv.damage(2);
+		        if(liv.getHealth()>2) {
+		        	liv.damage(2);
+		        }
+		        else {
+		        	Bukkit.broadcastMessage(liv.getName() + " died");
+		        	((CraftPlayer) liv).setGameMode(GameMode.SPECTATOR);
+		        	liv.teleport(new Location(this.world, -40, 40, -577));
+		        	respawn(liv);
+		        }
 		}
 			
 	}
@@ -152,5 +159,21 @@ public class TowerGun extends BukkitRunnable {
         Vector to = End.toVector();
         return to.subtract(from);
     }
+	
+	public void respawn(Entity damaged){
+		MobaPlayer damagedMobaPlayer = this.plugin.getMobaPlayer((Player) damaged);
+		this.plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
+			public void run() {
+				if (damagedMobaPlayer.getTeam().toString() == "RED"){
+					damaged.teleport(new Location(world, 28.5, 21, -577.5));
+				}else {
+					damaged.teleport(new Location(world, -91.5, 21, -577.5));
+				}
+				
+				((CraftPlayer) damaged).setHealth(20);
+				((CraftPlayer) damaged).setGameMode(GameMode.ADVENTURE);
+			}
+		}, 400);
+	}
 	
 }
