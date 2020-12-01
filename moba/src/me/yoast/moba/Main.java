@@ -6,41 +6,37 @@ import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.yoast.moba.commands.ClassesCommand;
 import me.yoast.moba.commands.SetupCommand;
 import me.yoast.moba.commands.StartCommand;
 import me.yoast.moba.listeners.ChunkUnloadListener;
 import me.yoast.moba.listeners.ClickItemListener;
-import me.yoast.moba.listeners.EntityDamageListener;
 import me.yoast.moba.listeners.CreepDropListener;
 import me.yoast.moba.listeners.DropItemListener;
+import me.yoast.moba.listeners.EntityDamageListener;
 import me.yoast.moba.listeners.FoodLevelChangeListener;
 import me.yoast.moba.listeners.InventoryClickListener;
 import me.yoast.moba.listeners.PlayerDeathListener;
 import me.yoast.moba.listeners.SlimeSplitListener;
 import me.yoast.moba.mobs.MobaPlayer;
-import me.yoast.moba.ui.InventoryUI;
 
 public class Main extends JavaPlugin {
 	
 	private List<MobaPlayer> mobaPlayers = new ArrayList<MobaPlayer>();
+	private EntityDamageListener entityDamageListener;
 	
 	@Override
 	public void onEnable() {
-		new ClassesCommand(this);
 		new ClickItemListener(this);
 		new StartCommand(this);
 		new CreepDropListener(this);
 		new InventoryClickListener(this); 
-		new EntityDamageListener(this);
+		this.entityDamageListener = new EntityDamageListener(this);
 		new DropItemListener(this);
 		new SlimeSplitListener(this);
 		new FoodLevelChangeListener(this);
 		new ChunkUnloadListener(this);
 		new SetupCommand(this);
 		new PlayerDeathListener(this);
-		
-		InventoryUI.initialize();
 	}
 	
 	public List<MobaPlayer> getMobaPlayers() {
@@ -60,7 +56,10 @@ public class Main extends JavaPlugin {
 			}
 		}
 		return null;
+	}
 	
+	public EntityDamageListener getDamageListener() {
+		return this.entityDamageListener;
 	}
 	// TODO
 	// Update Player HP bars on Heal (EntityRegainHealthEvent if e.getEntity instanceof Player)

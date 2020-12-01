@@ -66,7 +66,7 @@ public class EntityDamageListener implements Listener{
 					e.setCancelled(true);
 					return;
 				}
-				updateHealth(e, damaged);
+				updateHealth(damaged);
 			}
 			if(damaged instanceof CraftMagmaCube) {
 				Tower damagedMagma = (Tower) ((CraftMagmaCube) damaged).getHandle();
@@ -74,7 +74,7 @@ public class EntityDamageListener implements Listener{
 					e.setCancelled(true);
 					return;
 				}
-				updateHealth(e, damaged);
+				updateHealth(damaged);
 			}
 			
 			if(damaged instanceof CraftPlayer) {
@@ -118,7 +118,7 @@ public class EntityDamageListener implements Listener{
 		}, 400);
 	}
 	
-	public void updateHealth(EntityDamageEvent e, Entity damaged) {
+	public void updateHealth(Entity damaged) {
 		// Uses a scheduler with a 1 tick delay to ensure we get the health POST damage.
 					plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
 						public void run() {
@@ -127,7 +127,7 @@ public class EntityDamageListener implements Listener{
 							String maxHP = df.format(((CraftLivingEntity) damaged).getMaxHealth());
 							String health = currentString + "/" + maxHP;
 							// If it's a CraftZombie (aka a Creep) cast it to Creep
-							if (e.getEntity() instanceof CraftZombie) {
+							if (damaged instanceof CraftZombie) {
 								Creep damagedCreep = (Creep) ((CraftZombie)damaged).getHandle();
 								if (damagedCreep.getTeam().equals(Team.RED)) {
 									damaged.setCustomName(ChatColor.RED + health);
@@ -135,7 +135,7 @@ public class EntityDamageListener implements Listener{
 									damaged.setCustomName(ChatColor.BLUE + health);
 								}
 							}
-							if (e.getEntity() instanceof CraftMagmaCube) {
+							if (damaged instanceof CraftMagmaCube) {
 								Tower damagedTower = (Tower) ((CraftMagmaCube)damaged).getHandle();
 								if (damagedTower.getTeam().toString().equals("RED")) {
 									damaged.setCustomName(ChatColor.RED + health);

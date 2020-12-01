@@ -12,7 +12,6 @@ import org.bukkit.inventory.ItemStack;
 
 import me.yoast.moba.Main;
 import me.yoast.moba.mobs.Creep;
-import me.yoast.moba.ui.InventoryUI;
 
 public class CreepDropListener implements Listener{
 	

@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.yoast.moba.Main;
+import me.yoast.moba.listeners.EntityDamageListener;
 import me.yoast.moba.mobs.Creep;
 import me.yoast.moba.mobs.MobaPlayer;
 import me.yoast.moba.mobs.Tower;
@@ -52,6 +53,7 @@ public class DamageTarget extends BukkitRunnable {
 		if(this.creep.getBukkitEntity().getLocation().distance(goalTarget.getBukkitEntity().getLocation())<reach) {
 			if(!(goalTarget.getBukkitEntity() instanceof CraftPlayer)) {
 				goalTarget.damageEntity(DamageSource.GENERIC, 2);
+				this.plugin.getDamageListener().updateHealth(goalTarget.getBukkitEntity());
 			}
 			else {
 				if(goalTarget.getHealth()>2) {
