@@ -13,6 +13,7 @@ import me.yoast.moba.listeners.ClickItemListener;
 import me.yoast.moba.listeners.CreepDropListener;
 import me.yoast.moba.listeners.DropItemListener;
 import me.yoast.moba.listeners.EntityDamageListener;
+import me.yoast.moba.listeners.EntityDeathListener;
 import me.yoast.moba.listeners.FoodLevelChangeListener;
 import me.yoast.moba.listeners.InventoryClickListener;
 import me.yoast.moba.listeners.PlayerDeathListener;
@@ -37,6 +38,7 @@ public class Main extends JavaPlugin {
 		new ChunkUnloadListener(this);
 		new SetupCommand(this);
 		new PlayerDeathListener(this);
+		new EntityDeathListener(this);
 	}
 	
 	public List<MobaPlayer> getMobaPlayers() {
@@ -62,7 +64,6 @@ public class Main extends JavaPlugin {
 		return this.entityDamageListener;
 	}
 	// TODO
-	// Update Player HP bars on Heal (EntityRegainHealthEvent if e.getEntity instanceof Player)
 	// Shops
 	// Items
 	// More classes

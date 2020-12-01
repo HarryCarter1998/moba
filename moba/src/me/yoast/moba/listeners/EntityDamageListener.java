@@ -93,13 +93,9 @@ public class EntityDamageListener implements Listener{
 		}
 	
 	public void killedByPlayer(EntityDamageByEntityEvent e, Entity damaged, Player damager) {
-		
-			Bukkit.broadcastMessage(damaged.getName() + " was killed by " + damager.getName());
-			damaged.teleport(new Location(this.world, -40, 40, -577));
-			((CraftPlayer) damaged).setGameMode(GameMode.SPECTATOR);
-			
-			
-		
+		Bukkit.broadcastMessage(damaged.getName() + " was killed by " + damager.getName());
+		damaged.teleport(new Location(this.world, -40, 40, -577));
+		((CraftPlayer) damaged).setGameMode(GameMode.SPECTATOR);	
 	}
 	
 	public void respawn(Entity damaged){
@@ -120,31 +116,44 @@ public class EntityDamageListener implements Listener{
 	
 	public void updateHealth(Entity damaged) {
 		// Uses a scheduler with a 1 tick delay to ensure we get the health POST damage.
-					plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
-						public void run() {
-							double currentHP = ((CraftLivingEntity) damaged).getHealth();
-							String currentString = df.format(Double.max(0, currentHP));
-							String maxHP = df.format(((CraftLivingEntity) damaged).getMaxHealth());
-							String health = currentString + "/" + maxHP;
-							// If it's a CraftZombie (aka a Creep) cast it to Creep
-							if (damaged instanceof CraftZombie) {
-								Creep damagedCreep = (Creep) ((CraftZombie)damaged).getHandle();
-								if (damagedCreep.getTeam().equals(Team.RED)) {
-									damaged.setCustomName(ChatColor.RED + health);
-								} else {
-									damaged.setCustomName(ChatColor.BLUE + health);
-								}
-							}
-							if (damaged instanceof CraftMagmaCube) {
-								Tower damagedTower = (Tower) ((CraftMagmaCube)damaged).getHandle();
-								if (damagedTower.getTeam().toString().equals("RED")) {
-									damaged.setCustomName(ChatColor.RED + health);
-								} else {
-									damaged.setCustomName(ChatColor.BLUE + health);
-								}
-							}
-						}
-					}, 1);
+		plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
+			public void run() {
+				double health = ((CraftLivingEntity) damaged).getHealth();
+				double maxHealth = ((CraftLivingEntity) damaged).getMaxHealth();
+				double percentageHealth = (health/maxHealth);
+				if (damaged instanceof CraftZombie) {
+					percentageHealth *= 25;
+					String healthString = repeatString("|", (int) percentageHealth);
+					String noHealthString = repeatString("|", 25 - ((int) percentageHealth));
+					Creep damagedCreep = (Creep) ((CraftZombie)damaged).getHandle();
+					if (damagedCreep.getTeam().equals(Team.RED)) {
+						
+						damaged.setCustomName(ChatColor.RED + healthString + ChatColor.GRAY + noHealthString);
+					} else {
+						damaged.setCustomName(ChatColor.BLUE + healthString + ChatColor.GRAY + noHealthString);
+					}
+				}
+				if (damaged instanceof CraftMagmaCube) {
+					percentageHealth *= 50;
+					String healthString = repeatString("|", (int) percentageHealth);
+					String noHealthString = repeatString("|", 50 - ((int) percentageHealth));
+					Tower damagedCreep = (Tower) ((CraftMagmaCube)damaged).getHandle();
+					if (damagedCreep.getTeam().toString().equals("RED")) {
+						damaged.setCustomName(ChatColor.RED + healthString + ChatColor.GRAY + noHealthString);
+					} else {
+						damaged.setCustomName(ChatColor.BLUE + healthString + ChatColor.GRAY + noHealthString);
+					}
+				}
+			}
+		}, 1);
+	}
+	
+	public String repeatString(String string, int n) {
+		String healthString = "";
+		for (int i = 0; i < n; ++i) {
+		    healthString += string;
+		}
+		return healthString;
 	}
 	
 }

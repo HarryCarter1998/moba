@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -55,19 +56,27 @@ public class Creep extends EntityZombie {
 		this.getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(200);
 		this.getAttributeInstance(GenericAttributes.c).setValue(Double.MAX_VALUE);
 		this.setHealth(50);
-		this.setCustomNameVisible(true);
+		
 		setBaby(true);
 		this.b(true);
-		
-		String health = df.format(this.getMaxHealth()) + "/" + df.format(this.getMaxHealth());
+		int n = 25;
+		String bar = "|";
+
+		String healthString = "";
+		for (int i = 0; i < n; ++i) {
+		    healthString += bar;
+		}
+		if (this.team.equals(Team.RED)) {
+			
+			this.setCustomName(ChatColor.RED + healthString);
+		} else {
+			this.setCustomName(ChatColor.BLUE + healthString);
+		}
 		Color color;
 		if (this.team == Team.RED) {
 			color = Color.RED;
-			this.setCustomName(ChatColor.RED + health);
 		} else {
 			color = Color.BLUE;
-			this.setCustomName(ChatColor.BLUE + health);
-			
 		}
 		this.setCreepArmour(Material.LEATHER_HELMET, color, this);
 		this.setCreepArmour(Material.LEATHER_CHESTPLATE, color, this);

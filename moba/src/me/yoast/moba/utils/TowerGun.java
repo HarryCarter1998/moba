@@ -106,7 +106,8 @@ public class TowerGun extends BukkitRunnable {
 			
 			
 		        LivingEntity liv = (LivingEntity) this.target;
-		        	liv.damage(2);
+	        	liv.damage(2);
+	        	this.plugin.getDamageListener().updateHealth(liv);
 		        }
 	}
 	

@@ -15,21 +15,13 @@ import me.yoast.moba.mobs.Creep;
 
 public class CreepDropListener implements Listener{
 	
-	private Main plugin;
-	
 	public CreepDropListener(Main plugin) {
-		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
 	@EventHandler
 	public void onMobDeath(EntityDeathEvent e) {
-		// TODO Make players give more gold than creeps (if e.getEntity instanceof Player, addItem GOLD_NUGGET x10 instead)
-		if (e.getEntity().getKiller() instanceof Player) {
-			e.getEntity().getKiller().getInventory().addItem(new ItemStack(Material.GOLD_NUGGET, 1));
-		}
-		if (e.getEntity() instanceof CraftZombie) {
-			e.getDrops().clear();
-		}
+		e.getDrops().clear();
+		e.setDroppedExp(0);
 	}
 }
