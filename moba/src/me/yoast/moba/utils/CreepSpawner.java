@@ -25,10 +25,10 @@ public class CreepSpawner extends BukkitRunnable {
 		this.plugin = plugin;
 		this.counter = counter;
 		this.world = (CraftWorld) Bukkit.getWorld("world_1602090282");
-//		blueSpawns.add(new Location(world, -91, 21, -577));
-//		redSpawns.add(new Location(world, 28, 21, -577));
-		blueSpawns.add(new Location(world, -90, 4, -420.5));
-		redSpawns.add(new Location(world, 12, 4, -420.5));
+		blueSpawns.add(new Location(world, -91, 21, -577));
+		redSpawns.add(new Location(world, 28, 21, -577));
+//		blueSpawns.add(new Location(world, -90, 4, -420.5));
+//		redSpawns.add(new Location(world, 12, 4, -420.5));
 	}
 
 	@Override

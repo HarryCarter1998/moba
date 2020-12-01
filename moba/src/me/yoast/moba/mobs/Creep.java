@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import me.yoast.moba.Main;
-import me.yoast.moba.pathfinders.PathfinderPriorities;
+import me.yoast.moba.utils.PathfinderPriorities;
 import me.yoast.moba.utils.DamageTarget;
 import me.yoast.moba.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
@@ -44,9 +44,7 @@ public class Creep extends EntityZombie {
 
         setParams();
         new DamageTarget(this, this.plugin).runTaskTimer(this.plugin, 0, 40);
-        this.goalSelector.a(200, new PathfinderPriorities(this, this.plugin)); // Move to closest enemy creep
-//        this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityZombie.class, 1.0D, true)); // Enable attacks against zombies
-//        this.goalSelector.a(2, new PathfinderGoalMeleeAttack(this, EntityHuman.class, 1.0D, true));
+        new PathfinderPriorities(this,this.plugin).runTaskTimer(this.plugin, 0, 20);
         
 	}
 	

@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import me.yoast.moba.Main;
 import me.yoast.moba.mobs.EntityTypes;
@@ -35,14 +36,14 @@ public class StartCommand implements CommandExecutor{
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if(this.mobaPlayers.size()<1) {
-			Bukkit.broadcastMessage(ChatColor.DARK_RED + "No players are ready, pick a team before starting");
+		if(!ready()) {
 			return false;
 		}
+		equipPlayers();
 		spawnPlayers();
 		spawnMobs();
 		
-		return false;
+		return true;
 	}
 	
 	public void spawnMobs(){
@@ -62,25 +63,25 @@ public class StartCommand implements CommandExecutor{
 		livBlue1.setRemoveWhenFarAway(false);
 		livBlue2.setRemoveWhenFarAway(false);
 		
-		EntityTypes.spawnEntity(towerRed1, new Location(world, -9.5, 7, -419.5));
-		EntityTypes.spawnEntity(towerRed2, new Location(world, 8.5, 7, -419.5));
-		EntityTypes.spawnEntity(towerBlue1, new Location(world, -63.5, 7, -419.5));
-		EntityTypes.spawnEntity(towerBlue2, new Location(world, -83.5, 7, -419.5));
+//		EntityTypes.spawnEntity(towerRed1, new Location(world, -9.5, 7, -419.5));
+//		EntityTypes.spawnEntity(towerRed2, new Location(world, 8.5, 7, -419.5));
+//		EntityTypes.spawnEntity(towerBlue1, new Location(world, -63.5, 7, -419.5));
+//		EntityTypes.spawnEntity(towerBlue2, new Location(world, -83.5, 7, -419.5));
 		
-//		EntityTypes.spawnEntity(towerRed1, new Location(world, -14, 23, -575));
-//		EntityTypes.spawnEntity(towerRed2, new Location(world, 12, 23, -576));
-//		EntityTypes.spawnEntity(towerBlue1, new Location(world, -50, 23, -575));
-//		EntityTypes.spawnEntity(towerBlue2, new Location(world, -75, 23, -578));
+		EntityTypes.spawnEntity(towerRed1, new Location(world, -14.5, 24, -575.5));
+		EntityTypes.spawnEntity(towerRed2, new Location(world, 11.5, 24, -576.5));
+		EntityTypes.spawnEntity(towerBlue1, new Location(world, -50.5, 24, -575.5));
+		EntityTypes.spawnEntity(towerBlue2, new Location(world, -74.5, 24, -578.5));
 		
-		new WaveSeperator(this.plugin, 100).runTaskTimer(this.plugin, 0, 400);
+		new WaveSeperator(this.plugin, 100).runTaskTimer(this.plugin, 0, 600);
 	}
 	
 	public void spawnPlayers() {
 		
-		Location redSpawn = new Location(world, -11, 4, -420);
-		Location blueSpawn = new Location(world, -84, 4, -420);
-//		Location redSpawn = new Location(world, -0, 27, -582);
-//		Location blueSpawn = new Location(world, -0, 27, -582);
+//		Location redSpawn = new Location(world, -11, 4, -420);
+//		Location blueSpawn = new Location(world, -84, 4, -420);
+		Location redSpawn = new Location(world, 28.5, 21, -577.5);
+		Location blueSpawn = new Location(world, -91.5, 21, -577.5);
 		for(int i = 0; i<this.mobaPlayers.size(); i++) {
 			MobaPlayer mobaPlayer = this.mobaPlayers.get(i);
 			Player player = mobaPlayer.getPlayer();
@@ -91,7 +92,40 @@ public class StartCommand implements CommandExecutor{
 				colorSpawn = blueSpawn;
 			}
 			player.teleport(colorSpawn);
-			player.setBedSpawnLocation(colorSpawn, true);
 		}
+	}
+	
+	public void equipPlayers() {
+		for(int i = 0; i<this.mobaPlayers.size(); i++) {
+			MobaPlayer mobaPlayer = this.mobaPlayers.get(i);
+			Player player = mobaPlayer.getPlayer();
+			List<ItemStack> itemsList = mobaPlayer.getClassItems();
+			
+			List<ItemStack> armorList = mobaPlayer.getClassArmor();
+			ItemStack[] itemsArray = new ItemStack[itemsList.size()];
+			ItemStack[] armorArray = new ItemStack[armorList.size()];
+	        itemsArray = itemsList.toArray(itemsArray);
+	        armorArray = armorList.toArray(armorArray);
+	        player.getInventory().setContents(itemsArray);
+	        player.getInventory().setArmorContents(armorArray);
+		}
+	}
+	
+	public boolean ready() {
+		for(int i = 0; i<this.mobaPlayers.size(); i++) {
+			MobaPlayer mobaPlayer = this.mobaPlayers.get(i);
+			Player player = mobaPlayer.getPlayer();
+			List<ItemStack> itemsList = mobaPlayer.getClassItems();
+			List<ItemStack> armorList = mobaPlayer.getClassArmor();
+			if (itemsList == null || armorList == null) {
+				Bukkit.broadcastMessage(mobaPlayer.getPlayer().getName() + " needs to select a class");
+				return false;
+			}
+			if(mobaPlayer.getTeam() == null) {
+				Bukkit.broadcastMessage(mobaPlayer.getPlayer().getName() + " needs to select a team");
+				return false;
+			}
+		}
+		return true;
 	}
 }

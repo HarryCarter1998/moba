@@ -20,6 +20,7 @@ import me.yoast.moba.mobs.MobaPlayer;
 import me.yoast.moba.mobs.Tower;
 import net.minecraft.server.v1_8_R3.DamageSource;
 import net.minecraft.server.v1_8_R3.EntityLiving;
+import net.minecraft.server.v1_8_R3.NavigationAbstract;
 
 public class DamageTarget extends BukkitRunnable {
 	private Creep creep;

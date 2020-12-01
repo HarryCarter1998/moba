@@ -1,11 +1,13 @@
 package me.yoast.moba;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.yoast.moba.commands.ClassesCommand;
+import me.yoast.moba.commands.SetupCommand;
 import me.yoast.moba.commands.StartCommand;
 import me.yoast.moba.listeners.ChunkUnloadListener;
 import me.yoast.moba.listeners.ClickItemListener;
@@ -14,38 +16,43 @@ import me.yoast.moba.listeners.CreepDropListener;
 import me.yoast.moba.listeners.DropItemListener;
 import me.yoast.moba.listeners.FoodLevelChangeListener;
 import me.yoast.moba.listeners.InventoryClickListener;
-import me.yoast.moba.listeners.PlayerDeathListener;
 import me.yoast.moba.listeners.SlimeSplitListener;
 import me.yoast.moba.mobs.MobaPlayer;
 import me.yoast.moba.ui.InventoryUI;
 
 public class Main extends JavaPlugin {
 	
-	private ClickItemListener clickItemListener;
+	private List<MobaPlayer> mobaPlayers = new ArrayList<MobaPlayer>();
 	
 	@Override
 	public void onEnable() {
 		new ClassesCommand(this);
-		clickItemListener = new ClickItemListener(this);
+		new ClickItemListener(this);
 		new StartCommand(this);
 		new CreepDropListener(this);
 		new InventoryClickListener(this); 
-		new PlayerDeathListener(this);
 		new CreepDamageListener(this);
 		new DropItemListener(this);
 		new SlimeSplitListener(this);
 		new FoodLevelChangeListener(this);
 		new ChunkUnloadListener(this);
+		new SetupCommand(this);
+		
 		InventoryUI.initialize();
 	}
 	
 	public List<MobaPlayer> getMobaPlayers() {
-		return clickItemListener.getMobaPlayers();
+		return this.mobaPlayers;
+	}
+	public void addMobaPlayer(MobaPlayer mobaPlayer) {
+		this.mobaPlayers.add(mobaPlayer);
+	}
+	public void removeMobaPlayer(MobaPlayer mobaPlayer) {
+		this.mobaPlayers.remove(mobaPlayers.indexOf(mobaPlayer));
 	}
 	
 	public MobaPlayer getMobaPlayer(Player player) {
-		List<MobaPlayer> mobaPlayers = getMobaPlayers();
-		for(MobaPlayer mobaPlayer : mobaPlayers) {
+		for(MobaPlayer mobaPlayer : this.mobaPlayers) {
 			if (mobaPlayer.getPlayer().equals(player)) {
 				return mobaPlayer;
 			}
@@ -59,8 +66,6 @@ public class Main extends JavaPlugin {
 	// Items
 	// More classes
 	
-	//custom creep damager
-	//range team kill
 	//improve start
 	
 	
