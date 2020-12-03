@@ -17,6 +17,7 @@ import me.yoast.moba.listeners.EntityDeathListener;
 import me.yoast.moba.listeners.FoodLevelChangeListener;
 import me.yoast.moba.listeners.InventoryClickListener;
 import me.yoast.moba.listeners.PlayerDeathListener;
+import me.yoast.moba.listeners.PlayerInteractEntityListener;
 import me.yoast.moba.listeners.SlimeSplitListener;
 import me.yoast.moba.mobs.MobaPlayer;
 
@@ -39,6 +40,7 @@ public class Main extends JavaPlugin {
 		new SetupCommand(this);
 		new PlayerDeathListener(this);
 		new EntityDeathListener(this);
+		new PlayerInteractEntityListener(this);
 	}
 	
 	public List<MobaPlayer> getMobaPlayers() {

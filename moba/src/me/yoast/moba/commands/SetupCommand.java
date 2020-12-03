@@ -28,7 +28,6 @@ public class SetupCommand implements CommandExecutor{
 	
 	public SetupCommand(Main plugin) {
 		this.plugin = plugin;
-		this.players = new ArrayList<>(Bukkit.getOnlinePlayers());
 		plugin.getCommand("setup").setExecutor(this);
 		redWool.setDurability((short) 14);
 		blueWool.setDurability((short) 11);
@@ -36,6 +35,7 @@ public class SetupCommand implements CommandExecutor{
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		this.players = new ArrayList<>(Bukkit.getOnlinePlayers());
 		for(Player player : players) {
 			player.getInventory().clear();
 			player.getInventory().addItem(goldenSword);

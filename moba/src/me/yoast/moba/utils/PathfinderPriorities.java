@@ -46,7 +46,9 @@ public class PathfinderPriorities extends BukkitRunnable {
 	
 	@Override
 	public void run() {
-		//Bukkit.broadcastMessage(this.creep.getTeam().toString());
+		if(!this.creep.isAlive()) {
+			this.cancel();
+		}
 		List<Entity> nearbyEntities  = ((Entity) craftEntity).getNearbyEntities(200, 5, 200);
 		
 		List<MobaPlayer> nearbyMobaPlayers = new ArrayList<MobaPlayer>();

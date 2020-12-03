@@ -1,0 +1,23 @@
+<?xml version="1.0"?>  
+<items>  
+    <item>  
+        <name>Tank</name>
+        <icon>DIAMOND_CHESTPLATE</icon>   
+    </item>  
+      
+    <item>  
+        <name>Tank</name>
+        <icon>DIAMOND_HELMET</icon>   
+    </item> 
+  
+    <item>  
+        <name>Tank</name>
+        <icon>IRON_CHESTPLATE</icon>   
+    </item>   
+  
+    <item>  
+        <name>Tank</name>
+        <icon>GOLD_CHESTPLATE</icon>   
+    </item> 
+  
+</items>  

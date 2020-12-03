@@ -29,11 +29,11 @@
         <name>Miner</name>
         <icon>GOLD_PICKAXE</icon>  
         <items>
-        	<item>STONE_SWORD</item>  
-	        <item>DIAMOND_HELMET</item> 
-	        <item>DIAMOND_CHESTPLATE</item>  
-	        <item>DIAMOND_LEGGINGS</item>  
-	        <item>DIAMOND_BOOTS</item> 
+        	<item>GOLD_PICKAXE</item>  
+	        <item>LEATHER_HELMET</item> 
+	        <item>LEATHER_CHESTPLATE</item>  
+	        <item>LEATHER_LEGGINGS</item>  
+	        <item>LEATHER_BOOTS</item> 
         </items>               
     </class>  
   

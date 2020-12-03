@@ -35,10 +35,7 @@ public class EntityDeathListener implements Listener{
 				mobaKiller.setGold(mobaKiller.getGold()+20);
 				killer.sendMessage(ChatColor.GOLD + "+20 Gold");
 			}
-			if(event.getEntity() instanceof CraftPlayer) {
-				mobaKiller.setGold(mobaKiller.getGold()+10);
-				killer.sendMessage(ChatColor.GOLD + "+10 Gold");
-			}
+			
 		}
 	}
 	

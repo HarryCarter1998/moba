@@ -13,6 +13,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftZombie;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -142,8 +143,9 @@ public class TowerGun extends BukkitRunnable {
 			
 			
 		        LivingEntity liv = (LivingEntity) this.target;
-		        if(liv.getHealth()>2) {
-		        	liv.damage(2);
+		        double damage = DamageApi.calculateDamageAddArmor((Player) this.target, DamageCause.ENTITY_ATTACK, 4);
+		        if(liv.getHealth()>damage) {
+		        	liv.damage(damage);
 		        }
 		        else {
 		        	Bukkit.broadcastMessage(liv.getName() + " died");

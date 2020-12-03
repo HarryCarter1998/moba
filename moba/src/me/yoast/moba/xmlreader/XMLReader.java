@@ -90,6 +90,46 @@ public class XMLReader {
 		}
 		
 		return itemsArray;  
+	}
+
+
+	public static List<String[]> getShop() {
+		List<String[]> itemArray = new ArrayList<String[]>();
+		String[] nameAndIcon;
+		String name;
+		String icon;
+	
+		try {  
+			//creating a constructor of file class and parsing an XML file  
+			//File file = new File("./classes.xml");  
+			InputStream file = XMLReader.class.getClassLoader().getResourceAsStream("shop.xml");
+			//an instance of factory that gives a document builder  
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();  
+			//an instance of builder to parse the specified xml file  
+			DocumentBuilder db = dbf.newDocumentBuilder();  
+			Document doc = db.parse(file);  
+			doc.getDocumentElement().normalize();
+			
+			NodeList itemList = doc.getElementsByTagName("item");  
+			// nodeList is not iterable, so we are using for loop  
+			for (int itr = 0; itr < itemList.getLength(); itr++) {  
+				Node itemNode = itemList.item(itr);   
+				if (itemNode.getNodeType() == Node.ELEMENT_NODE) {  
+					Element itemElement = (Element) itemNode;  
+					  
+					name = itemElement.getElementsByTagName("name").item(0).getTextContent();
+					icon = itemElement.getElementsByTagName("icon").item(0).getTextContent();
+					nameAndIcon = new String[] {name, icon};
+					System.out.println(Arrays.toString(nameAndIcon));
+					itemArray.add(nameAndIcon);
+				}  
+			}
+			
+		}
+		catch (Exception e){  
+			e.printStackTrace();  
+		}
+		return itemArray; 	
 	}  
 
 }

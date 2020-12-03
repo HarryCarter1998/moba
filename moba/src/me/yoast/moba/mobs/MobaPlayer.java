@@ -3,6 +3,7 @@ package me.yoast.moba.mobs;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -12,6 +13,9 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import net.md_5.bungee.api.ChatColor;
+import net.minecraft.server.v1_8_R3.EntityLiving;
+import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.GenericAttributes;
 
 public class MobaPlayer{
 	
@@ -27,12 +31,18 @@ public class MobaPlayer{
 	private Objective objective;
 	private Score goldScore;
 	private int gold = 0;
+	private Nexus nexus;
+
+	
 
 	public MobaPlayer(Player player) {
 		super();
 		this.player = player;
 		player.setCustomName(ChatColor.RED + player.getName());
 		createScoreboard();
+		EntityPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
+		((EntityLiving) nmsPlayer).getAttributeInstance(GenericAttributes.maxHealth).setValue(40);
+		//((EntityLiving) nmsPlayer).getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(0);
 	}
 	
 	public int getGold() {
@@ -85,7 +95,13 @@ public class MobaPlayer{
 		this.player.setScoreboard(scoreboard);
 	}
 	 
-	
+	public Nexus getNexus() {
+		return nexus;
+	}
+
+	public void setNexus(Nexus nexus) {
+		this.nexus = nexus;
+	}
 	
 
 }

@@ -13,7 +13,7 @@ import net.minecraft.server.v1_8_R3.EntityMagmaCube;
 import net.minecraft.server.v1_8_R3.GenericAttributes;
 import net.minecraft.server.v1_8_R3.PathfinderGoalSelector;
 
-public class Tower extends EntityMagmaCube {
+public class Nexus extends EntityMagmaCube {
 	
 	public enum Team {
 		RED, BLUE
@@ -22,7 +22,7 @@ public class Tower extends EntityMagmaCube {
 	private Team team = null;
 	private Main plugin;
 	
-	public Tower(Team team, CraftWorld world, Main plugin) {
+	public Nexus(Team team, CraftWorld world, Main plugin) {
 		
 		super(((CraftWorld)world).getHandle());
         this.team = team;
@@ -33,14 +33,13 @@ public class Tower extends EntityMagmaCube {
         List targetC = (List)Utils.getPrivateField("c", PathfinderGoalSelector.class, targetSelector); targetC.clear();
 
         setParams();
-        new TowerGun(this, this.plugin).runTaskTimer(this.plugin, 0, 10);
 	}
 	
 	private void setParams() {
-		this.setSize(2);
-		this.getAttributeInstance(GenericAttributes.maxHealth).setValue(250);
-		this.setHealth(250);
-		int n = 50;
+		this.setSize(3);
+		this.getAttributeInstance(GenericAttributes.maxHealth).setValue(500);
+		this.setHealth(500);
+		int n = 100;
 		String bar = "|";
 
 		String healthString = "";
@@ -65,6 +64,7 @@ public class Tower extends EntityMagmaCube {
 	}
 	@Override
 	public void move(double d0, double d1, double d2) {
+        this.ai = true;
     } 
 	
 	
