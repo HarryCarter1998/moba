@@ -30,9 +30,10 @@ public class MobaPlayer{
 	private Scoreboard scoreboard;
 	private Objective objective;
 	private Score goldScore;
-	private int gold = 0;
-	private Nexus nexus;
-
+	private int gold = 1000;
+	private double damage = 1;
+	private double defence = 1;
+	private double speed = 0.2;
 	
 
 	public MobaPlayer(Player player) {
@@ -42,7 +43,6 @@ public class MobaPlayer{
 		createScoreboard();
 		EntityPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
 		((EntityLiving) nmsPlayer).getAttributeInstance(GenericAttributes.maxHealth).setValue(40);
-		//((EntityLiving) nmsPlayer).getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(0);
 	}
 	
 	public int getGold() {
@@ -90,17 +90,33 @@ public class MobaPlayer{
 		objective = scoreboard.registerNewObjective("MobaCraft", "dummy");
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 		objective.setDisplayName(ChatColor.GREEN + "MobaCraft");
-		goldScore = objective.getScore(ChatColor.GOLD + "Gold: " + 0); 
+		goldScore = objective.getScore(ChatColor.GOLD + "Gold: " + this.gold); 
 		goldScore.setScore(1);
 		this.player.setScoreboard(scoreboard);
 	}
-	 
-	public Nexus getNexus() {
-		return nexus;
+
+	public double getDamage() {
+		return damage;
 	}
 
-	public void setNexus(Nexus nexus) {
-		this.nexus = nexus;
+	public void setDamage(double damage) {
+		this.damage = damage;
+	}
+
+	public double getDefence() {
+		return defence;
+	}
+
+	public void setDefence(double defence) {
+		this.defence = defence;
+	}
+
+	public double getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(double speed) {
+		this.speed = speed;
 	}
 	
 

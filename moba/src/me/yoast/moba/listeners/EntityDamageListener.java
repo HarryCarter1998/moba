@@ -65,16 +65,14 @@ public class EntityDamageListener implements Listener{
 			if(mobaDamager == null) {
 				return;
 			}
-			
+			e.setDamage(e.getDamage() * mobaDamager.getDamage()); // change damage based on damage rating of damager
 			if(damaged instanceof CraftZombie) {
 				Creep damagedCreep = (Creep) ((CraftZombie) damaged).getHandle();
 				if(mobaDamager.getTeam().toString() == damagedCreep.getTeam().toString()) {
 					e.setCancelled(true);
 					return;
 				}
-				Bukkit.broadcastMessage(String.valueOf(e.getDamage()));
-				e.setDamage(checkWeaponBonuses((EntityDamageByEntityEvent) e));
-				Bukkit.broadcastMessage(String.valueOf(e.getDamage()));
+				
 				updateHealth(damaged);
 			}
 			if(damaged instanceof CraftMagmaCube) {
@@ -94,14 +92,13 @@ public class EntityDamageListener implements Listener{
 						return;
 					}
 				}
-				e.setDamage(checkWeaponBonuses((EntityDamageByEntityEvent) e));
 				updateHealth(damaged);
 			}
 			
 			if(damaged instanceof CraftPlayer) {
 				Player damagedPlayer = (Player) damaged;
 				MobaPlayer mobaDamaged = this.plugin.getMobaPlayer(damagedPlayer);
-				e.setDamage(checkWeaponBonuses((EntityDamageByEntityEvent) e));
+				e.setDamage(e.getDamage() / mobaDamaged.getDefence()); // change damage based on defence of damaged player
 				if(mobaDamager.getTeam() == mobaDamaged.getTeam()) {
 					e.setCancelled(true);
 					return;
@@ -192,19 +189,5 @@ public class EntityDamageListener implements Listener{
 		return healthString;
 	}
 	
-	public double checkWeaponBonuses(EntityDamageByEntityEvent e) {
-		ItemStack sword = ((Player) e.getDamager()).getItemInHand();
-		ItemMeta swordMeta = sword.getItemMeta();
-		List<String> swordLore = swordMeta.getLore();
-		if(swordLore == null) {
-			return e.getDamage();
-		}
-		if(swordLore.get(0).equals("+5% damage")) {
-			return e.getDamage()+e.getDamage()/20;
-		}
-		else {
-			return e.getDamage();
-		}
 		
-	}
 }

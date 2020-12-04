@@ -95,9 +95,11 @@ public class XMLReader {
 
 	public static List<String[]> getShop() {
 		List<String[]> itemArray = new ArrayList<String[]>();
-		String[] nameAndIcon;
+		String[] items;
 		String name;
 		String icon;
+		String cost;
+		String lore;
 	
 		try {  
 			//creating a constructor of file class and parsing an XML file  
@@ -118,10 +120,11 @@ public class XMLReader {
 					Element itemElement = (Element) itemNode;  
 					  
 					name = itemElement.getElementsByTagName("name").item(0).getTextContent();
+					lore = itemElement.getElementsByTagName("lore").item(0).getTextContent();
 					icon = itemElement.getElementsByTagName("icon").item(0).getTextContent();
-					nameAndIcon = new String[] {name, icon};
-					System.out.println(Arrays.toString(nameAndIcon));
-					itemArray.add(nameAndIcon);
+					cost = itemElement.getElementsByTagName("cost").item(0).getTextContent();
+					items = new String[] {name, lore, icon, cost};
+					itemArray.add(items);
 				}  
 			}
 			

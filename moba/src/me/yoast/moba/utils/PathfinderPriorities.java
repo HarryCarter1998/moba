@@ -70,10 +70,12 @@ public class PathfinderPriorities extends BukkitRunnable {
 				}	
 				
 				if(nearbyEntity instanceof CraftMagmaCube) {
-					Tower nmsTower = (Tower) ((CraftMagmaCube) nearbyEntity).getHandle();
-					if (this.creep.getTeam().toString() != nmsTower.getTeam().toString()) {
-						nearbyTowers.add((CraftMagmaCube) nearbyEntity);
-					
+					if(((CraftMagmaCube) nearbyEntity).getSize() == 2) {
+						Tower nmsTower = (Tower) ((CraftMagmaCube) nearbyEntity).getHandle();
+						if (this.creep.getTeam().toString() != nmsTower.getTeam().toString()) {
+							nearbyTowers.add((CraftMagmaCube) nearbyEntity);
+						
+						}
 					}
 				}
 		}

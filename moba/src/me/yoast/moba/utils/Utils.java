@@ -36,7 +36,7 @@ public class Utils {
 	
 	public static ItemStack createItemByte(Inventory inv, String materialId, int byteId, int amount, int invSlot, String displayName, String... loreString) {
 		ItemStack item;
-		List<String> lore = new ArrayList();
+		List<String> lore = new ArrayList<String>();
 		
 		item = new ItemStack(Material.getMaterial(materialId), amount, (short) byteId);
 		

@@ -112,9 +112,10 @@ public class TowerGun extends BukkitRunnable {
 		        }
 	}
 	
-	public void attackNearestEnemyPlayer(MobaPlayer nearbyEntity) {
-		Player nmsPlayer = nearbyEntity.getPlayer();
-		if (this.tower.getTeam().toString() != nearbyEntity.getTeam().toString()) {
+	public void attackNearestEnemyPlayer(MobaPlayer mobaPlayer) {
+		Player nmsPlayer = mobaPlayer.getPlayer();
+		
+		if (this.tower.getTeam().toString() != mobaPlayer.getTeam().toString()) {
 			if (this.minDistance == -1) {
 				this.minDistance = nmsPlayer.getLocation().distance(craftEntity.getLocation());
 				this.target = nmsPlayer;
@@ -143,7 +144,8 @@ public class TowerGun extends BukkitRunnable {
 			
 			
 		        LivingEntity liv = (LivingEntity) this.target;
-		        double damage = DamageApi.calculateDamageAddArmor((Player) this.target, DamageCause.ENTITY_ATTACK, 4);
+		        double damage = DamageApi.calculateDamageAddArmor((Player) this.target, DamageCause.ENTITY_ATTACK, 8);
+		        damage /= mobaPlayer.getDefence(); // change damage based on defence of damaged player
 		        if(liv.getHealth()>damage) {
 		        	liv.damage(damage);
 		        }

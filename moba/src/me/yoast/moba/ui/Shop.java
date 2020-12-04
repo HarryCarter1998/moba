@@ -3,6 +3,7 @@ package me.yoast.moba.ui;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -23,9 +24,8 @@ public class Shop {
 		
 		List<String[]> shopArray = XMLReader.getShop();
 		for(int i=0; i<shopArray.size(); i++) {
-		Utils.createItem(inv, shopArray.get(i)[1], 1, i, shopArray.get(i)[0]);
+			Utils.createItem(inv, shopArray.get(i)[2], 1, i, ChatColor.BOLD + shopArray.get(i)[0], ChatColor.GRAY + shopArray.get(i)[1], ChatColor.GOLD + "Cost: " + shopArray.get(i)[3] + " Gold");
 		}
-		//toReturn.setContents(inv.getContents());
 		player.openInventory(inv);
 	}
 }

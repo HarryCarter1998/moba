@@ -14,6 +14,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftZombie;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.yoast.moba.Main;
@@ -56,8 +57,11 @@ public class DamageTarget extends BukkitRunnable {
 				this.plugin.getDamageListener().updateHealth(goalTarget.getBukkitEntity());
 			}
 			else {
-				if(goalTarget.getHealth()>2) {
-					goalTarget.damageEntity(DamageSource.GENERIC, 2);
+				Player player = (Player) goalTarget.getBukkitEntity();
+				double damage = DamageApi.calculateDamageAddArmor(player, DamageCause.ENTITY_ATTACK, 8);
+				damage /= this.plugin.getMobaPlayer(player).getDefence(); // change damage based on defence of damaged player
+				if(goalTarget.getHealth()>damage) {
+					goalTarget.damageEntity(DamageSource.GENERIC, (float) damage);
 		        }
 		        else {
 		        	Bukkit.broadcastMessage(goalTarget.getName() + " died");

@@ -28,8 +28,6 @@ public class StartCommand implements CommandExecutor{
 	private Main plugin;
 	private List<MobaPlayer> mobaPlayers;
 	private CraftWorld world = (CraftWorld) Bukkit.getWorld("world_1602090282");
-	private Nexus blueNexus;
-	private Nexus redNexus;
 	
 	public StartCommand(Main plugin) {
 		this.plugin = plugin;
@@ -54,8 +52,8 @@ public class StartCommand implements CommandExecutor{
 		Tower towerRed2 = new Tower(Tower.Team.RED, world, this.plugin);
 		Tower towerBlue1 = new Tower(Tower.Team.BLUE, world, this.plugin);
 		Tower towerBlue2 = new Tower(Tower.Team.BLUE, world, this.plugin);
-		this.blueNexus = new Nexus(Nexus.Team.BLUE, world, this.plugin);
-		this.redNexus = new Nexus(Nexus.Team.RED, world, this.plugin);
+		Nexus blueNexus = new Nexus(Nexus.Team.BLUE, world, this.plugin);
+		Nexus redNexus = new Nexus(Nexus.Team.RED, world, this.plugin);
 		NBTTagCompound red1 = new NBTTagCompound();
         towerRed1.c(red1);
         red1.setBoolean("Silent", true);
@@ -63,10 +61,14 @@ public class StartCommand implements CommandExecutor{
 		LivingEntity livRed2 = (LivingEntity) towerRed2.getBukkitEntity();
 		LivingEntity livBlue1 = (LivingEntity) towerBlue1.getBukkitEntity();
 		LivingEntity livBlue2 = (LivingEntity) towerBlue2.getBukkitEntity();
+		LivingEntity livRedNexus = (LivingEntity) towerBlue2.getBukkitEntity();
+		LivingEntity livBlueNexus = (LivingEntity) towerBlue2.getBukkitEntity();
 		livRed1.setRemoveWhenFarAway(false);
 		livRed2.setRemoveWhenFarAway(false);
 		livBlue1.setRemoveWhenFarAway(false);
 		livBlue2.setRemoveWhenFarAway(false);
+		livRedNexus.setRemoveWhenFarAway(false);
+		livBlueNexus.setRemoveWhenFarAway(false);
 		
 //		EntityTypes.spawnEntity(towerRed1, new Location(world, -9.5, 7, -419.5));
 //		EntityTypes.spawnEntity(towerRed2, new Location(world, 8.5, 7, -419.5));
@@ -77,8 +79,8 @@ public class StartCommand implements CommandExecutor{
 		EntityTypes.spawnEntity(towerRed2, new Location(world, 11.5, 24, -576.5));
 		EntityTypes.spawnEntity(towerBlue1, new Location(world, -50.5, 24, -575.5));
 		EntityTypes.spawnEntity(towerBlue2, new Location(world, -74.5, 24, -578.5));
-		EntityTypes.spawnEntity(this.blueNexus, new Location(world, -74.5, 30, -578.5));
-		EntityTypes.spawnEntity(this.redNexus, new Location(world, 11.5, 30, -578.5));
+		EntityTypes.spawnEntity(blueNexus, new Location(world, -88.5, 23, -581.5));
+		EntityTypes.spawnEntity(redNexus, new Location(world, 25.5, 23, -573.5));
 		
 		new WaveSeperator(this.plugin, 100).runTaskTimer(this.plugin, 0, 600);
 	}
@@ -95,10 +97,8 @@ public class StartCommand implements CommandExecutor{
 			Location colorSpawn;
 			if(mobaPlayer.getTeam() == Team.RED) {
 				colorSpawn = redSpawn;
-				mobaPlayer.setNexus(this.redNexus);
 			}else {
 				colorSpawn = blueSpawn;
-				mobaPlayer.setNexus(this.blueNexus);
 			}
 			player.teleport(colorSpawn);
 		}

@@ -1,23 +1,24 @@
 <?xml version="1.0"?>  
 <items>  
     <item>  
-        <name>Tank</name>
-        <icon>DIAMOND_CHESTPLATE</icon>   
+        <name>Damage Upgrade</name>
+        <lore>Increase your attack damage by 5%</lore>
+        <icon>REDSTONE</icon>
+        <cost>10</cost>   
     </item>  
       
     <item>  
-        <name>Tank</name>
-        <icon>DIAMOND_HELMET</icon>   
+        <name>Defence Upgrade</name>
+        <lore>Increase your defence by 5%</lore>
+        <icon>DIAMOND_CHESTPLATE</icon> 
+        <cost>10</cost>     
     </item> 
   
     <item>  
-        <name>Tank</name>
-        <icon>IRON_CHESTPLATE</icon>   
-    </item>   
-  
-    <item>  
-        <name>Tank</name>
-        <icon>GOLD_CHESTPLATE</icon>   
-    </item> 
+        <name>Speed Upgrade</name>
+        <lore>Increase your speed by 5%</lore>
+        <icon>SUGAR</icon>   
+        <cost>10</cost>   
+    </item>  
   
 </items>  

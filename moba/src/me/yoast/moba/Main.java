@@ -69,6 +69,8 @@ public class Main extends JavaPlugin {
 	// Shops
 	// Items
 	// More classes
+	//speed upgrade
+	//Defence upgrade
 	
 	
 	
