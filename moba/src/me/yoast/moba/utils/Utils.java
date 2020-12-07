@@ -19,7 +19,7 @@ public class Utils {
 	
 	public static ItemStack createItem(Inventory inv, String materialId, int amount, int invSlot, String displayName, String... loreString) {
 		ItemStack item;
-		List<String> lore = new ArrayList();
+		List<String> lore = new ArrayList<String>();
 		
 		item = new ItemStack(Material.getMaterial(materialId), amount);
 		
@@ -51,7 +51,7 @@ public class Utils {
 		return item;
 	}
 	
-	public static Object getPrivateField(String fieldName, Class clazz, Object object)
+	public static Object getPrivateField(String fieldName, Class<?> clazz, Object object)
     {
         Field field;
         Object o = null;

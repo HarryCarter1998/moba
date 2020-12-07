@@ -34,7 +34,6 @@ public class MobaPlayer{
 	private double damage = 1;
 	private double defence = 1;
 	private double speed = 0.2;
-	
 
 	public MobaPlayer(Player player) {
 		super();
@@ -43,6 +42,7 @@ public class MobaPlayer{
 		createScoreboard();
 		EntityPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
 		((EntityLiving) nmsPlayer).getAttributeInstance(GenericAttributes.maxHealth).setValue(40);
+		player.setHealth(40);
 	}
 	
 	public int getGold() {

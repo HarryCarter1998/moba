@@ -25,7 +25,6 @@ public class ClassSelector {
 		for(int i=0; i<classArray.size(); i++) {
 		Utils.createItem(inv, classArray.get(i)[1], 1, i, classArray.get(i)[0]);
 		}
-		//toReturn.setContents(inv.getContents());
 		player.openInventory(inv);
 	}
 }
